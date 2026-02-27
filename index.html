@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Migration Analysis — cPanel vs. Zoho Mail</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:   #355872;
+      --blue:   #7AAACE;
+      --light:  #9CD5FF;
+      --cream:  #F7F8F0;
+      --white:  #ffffff;
+      --text:   #2a3d4e;
+      --muted:  #5e7a8a;
+      --border: #cddde8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'IBM Plex Serif', serif;
+      letter-spacing: -0.01em;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 0 40px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 16px; font-weight: 500;
+      color: white;
+    }
+
+    .logo-box {
+      width: 28px; height: 28px;
+      background: var(--blue);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px;
+    }
+
+    .hero {
+      background: var(--navy);
+      color: white;
+      padding: 52px 40px 48px;
+      border-bottom: 3px solid var(--blue);
+    }
+
+    .hero-inner { max-width: 860px; margin: 0 auto; }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(156,213,255,0.15);
+      border: 1px solid rgba(156,213,255,0.3);
+      color: var(--light);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 4px;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 600; line-height: 1.2;
+      margin-bottom: 14px; color: white;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.6);
+      font-size: 15px; max-width: 600px;
+    }
+
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 28px;
+      margin-top: 32px; padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .hs-val {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 20px; font-weight: 600;
+      color: var(--light);
+    }
+
+    .hs-lbl {
+      font-size: 11px;
+      color: rgba(255,255,255,0.38);
+      text-transform: uppercase;
+      letter-spacing: 0.07em; margin-top: 3px;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 44px 24px 60px;
+    }
+
+    section { margin-bottom: 48px; }
+
+    .section-title {
+      font-size: 20px; font-weight: 600;
+      color: var(--navy); margin-bottom: 5px;
+    }
+
+    .section-sub {
+      font-size: 14px; color: var(--muted); margin-bottom: 20px;
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 18px; align-items: start;
+    }
+
+    @media (max-width: 680px) { .sim-grid { grid-template-columns: 1fr; } }
+
+    .sim-panel {
+      background: var(--navy);
+      border-radius: 10px; padding: 22px; color: white;
+    }
+
+    .sim-panel h3 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.09em;
+      color: var(--light); margin-bottom: 18px;
+    }
+
+    .sim-row { margin-bottom: 18px; }
+
+    .sim-lbl {
+      font-size: 11px; color: rgba(255,255,255,0.45);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px;
+    }
+
+    .sim-val {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 18px; font-weight: 600;
+      color: var(--light); margin-bottom: 7px;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none; width: 100%;
+      height: 3px; background: rgba(156,213,255,0.2);
+      border-radius: 2px; cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 15px; height: 15px;
+      border-radius: 50%; background: var(--light);
+      cursor: pointer; margin-top: -6px;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 3px; background: rgba(156,213,255,0.2); border-radius: 2px;
+    }
+
+    select.sim-select {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: white;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 13px; padding: 8px 10px;
+      border-radius: 6px; outline: none; cursor: pointer;
+      appearance: none;
+    }
+
+    select.sim-select option { background: #2e4d63; }
+
+    .sim-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 16px 0; }
+
+    .breakeven-box {
+      background: rgba(156,213,255,0.1);
+      border: 1px solid rgba(156,213,255,0.22);
+      border-radius: 7px; padding: 12px;
+    }
+
+    .be-val {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 17px; font-weight: 600; color: var(--light);
+    }
+
+    .be-note { font-size: 11px; color: rgba(255,255,255,0.38); margin-top: 4px; }
+
+    .charts-col { display: flex; flex-direction: column; gap: 16px; }
+
+    .chart-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px;
+    }
+
+    .chart-lbl {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 14px; font-weight: 500;
+      color: var(--navy); margin-bottom: 3px;
+    }
+
+    .chart-note { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+
+    .legend { display: flex; gap: 14px; align-items: center; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+
+    .ld { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; }
+
+    .chart-container { position: relative; height: 200px; }
+
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px;
+    }
+
+    @media (max-width: 600px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-box {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px; text-align: center;
+    }
+
+    .sb-val {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 17px; font-weight: 600; color: var(--navy);
+    }
+
+    .sb-lbl {
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--muted); margin-top: 4px;
+    }
+
+    .feat-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+    .feat-table thead tr { background: var(--navy); color: white; }
+
+    .feat-table th {
+      padding: 12px 16px; text-align: left;
+      font-family: 'IBM Plex Serif', serif; font-weight: 500; font-size: 13px;
+    }
+
+    .feat-table th:not(:first-child) { text-align: center; }
+
+    .feat-table td {
+      padding: 13px 16px; border-bottom: 1px solid #e3ecf2; vertical-align: top;
+    }
+
+    .feat-table td:not(:first-child) { text-align: center; }
+
+    .feat-table td:first-child { font-weight: 500; }
+
+    .feat-table tbody tr:last-child td { border-bottom: none; }
+
+    .feat-table tbody tr:nth-child(even) td { background: #f3f8fc; }
+
+    .feat-table td small {
+      display: block; font-size: 11px;
+      color: var(--muted); font-weight: 400; margin-top: 2px;
+    }
+
+    .yes {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+      background: #d1f0e0; color: #1a7a47;
+      border-radius: 50%; font-size: 11px; font-weight: 700;
+    }
+
+    .no {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+      background: #fde8e8; color: #b91c1c;
+      border-radius: 50%; font-size: 11px; font-weight: 700;
+    }
+
+    .partial {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+      background: #fef3c7; color: #b45309;
+      border-radius: 50%; font-size: 11px; font-weight: 700;
+    }
+
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;
+    }
+
+    .step-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px;
+    }
+
+    .step-num {
+      width: 30px; height: 30px;
+      background: var(--navy); color: var(--light);
+      border-radius: 7px;
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .step-tag {
+      display: inline-block; background: #e3eef7;
+      color: var(--navy); font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      padding: 2px 8px; border-radius: 4px; margin-bottom: 7px;
+    }
+
+    .step-card h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 5px; }
+
+    .step-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .rec-box {
+      background: var(--navy); border-radius: 10px;
+      padding: 30px; color: white;
+      border-left: 4px solid var(--light);
+    }
+
+    .rec-lbl {
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--light);
+      margin-bottom: 10px; font-weight: 600;
+    }
+
+    .rec-text {
+      font-size: 15px; color: rgba(255,255,255,0.75);
+      line-height: 1.7; max-width: 680px;
+    }
+
+    .rec-text strong { color: white; }
+
+    .rec-numbers {
+      display: flex; gap: 28px; flex-wrap: wrap;
+      margin-top: 22px; padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .rn-val {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 18px; font-weight: 600;
+    }
+
+    .rn-lbl {
+      font-size: 11px; color: rgba(255,255,255,0.38);
+      text-transform: uppercase; letter-spacing: 0.07em; margin-top: 3px;
+    }
+
+    .btn-print {
+      margin-top: 20px;
+      display: inline-flex; align-items: center; gap: 7px;
+      background: white; color: var(--navy);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 13px; font-weight: 600;
+      padding: 9px 18px; border-radius: 7px;
+      border: none; cursor: pointer;
+    }
+
+    .btn-print:hover { background: var(--cream); }
+
+    footer {
+      background: var(--navy); color: rgba(255,255,255,0.3);
+      text-align: center; padding: 18px; font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    cPanel vs. Zoho Mail Analysis
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <button class="btn-print" onclick="window.print()" style="margin-top:0;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print / Save as PDF
+    </button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Email Infrastructure Assessment</div>
+    <h1>Should you migrate from<br>cPanel to Zoho Mail?</h1>
+    <p>A practical, data-driven analysis comparing your current shared hosting email against a dedicated cloud mail platform — covering cost, deliverability, storage, and operational impact.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hs-val" id="heroBreakeven">~4 Users</div>
+        <div class="hs-lbl">Break-even Point</div>
+      </div>
+      <div>
+        <div class="hs-val">Shared</div>
+        <div class="hs-lbl">cPanel Storage Model</div>
+      </div>
+      <div>
+        <div class="hs-val" id="heroCostRatio">2.6×</div>
+        <div class="hs-lbl">Cost Multiplier (5 users)</div>
+      </div>
+      <div>
+        <div class="hs-val">99.9%</div>
+        <div class="hs-lbl">Zoho Uptime SLA</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Simulator -->
+  <section>
+    <h2 class="section-title">Cost Scenario Simulator</h2>
+    <p class="section-sub">Adjust the inputs to match your situation — charts and recommendations update in real time.</p>
+
+    <div class="sim-grid">
+      <div class="sim-panel">
+        <h3>Your Setup</h3>
+
+        <div class="sim-row">
+          <div class="sim-lbl">Number of Users</div>
+          <div class="sim-val" id="userDisplay">5</div>
+          <input type="range" id="userSlider" min="1" max="50" value="5">
+          <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:rgba(255,255,255,0.25)"><span>1</span><span>50</span></div>
+        </div>
+
+        <div class="sim-row">
+          <div class="sim-lbl">cPanel Annual Cost (KES)</div>
+          <div class="sim-val" id="cpanelDisplay">6,000</div>
+          <input type="range" id="cpanelSlider" min="3000" max="20000" step="500" value="6000">
+          <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:rgba(255,255,255,0.25)"><span>3,000</span><span>20,000</span></div>
+        </div>
+
+        <div class="sim-row">
+          <div class="sim-lbl">Zoho Plan</div>
+          <select id="planSelect" class="sim-select">
+            <option value="lite">Mail Lite — 5 GB/user (~$1.25/mo)</option>
+            <option value="premium">Mail Premium — 50 GB/user (~$4/mo)</option>
+          </select>
+          <div style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:6px;">Rate: 1 USD = 130 KES</div>
+        </div>
+
+        <div class="sim-divider"></div>
+
+        <div class="sim-lbl" style="margin-bottom:8px;">Break-even Threshold</div>
+        <div class="breakeven-box">
+          <div class="be-val" id="breakEvenDisplay">~4 Users</div>
+          <div class="be-note">Above this count, cPanel is cheaper per seat. Below it, Zoho is cost-competitive.</div>
+        </div>
+      </div>
+
+      <div class="charts-col">
+        <div class="chart-card">
+          <div class="chart-lbl">Annual Cost Comparison (KES)</div>
+          <div class="chart-note">Fixed cPanel cost vs. variable Zoho licensing at your selected user count</div>
+          <div class="legend">
+            <span><span class="ld" style="background:#355872;"></span>cPanel</span>
+            <span><span class="ld" style="background:#7AAACE;"></span>Zoho Mail</span>
+          </div>
+          <div class="chart-container"><canvas id="costChart"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-lbl">Storage Architecture (GB)</div>
+          <div class="chart-note">cPanel uses one shared bucket for website + all email. Zoho gives each user their own allocation.</div>
+          <div class="legend">
+            <span><span class="ld" style="background:#355872;"></span>cPanel (Shared Pool)</span>
+            <span><span class="ld" style="background:#9CD5FF;"></span>Zoho (Total Aggregate)</span>
+          </div>
+          <div class="chart-container"><canvas id="storageChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="sb-lbl">cPanel / Year</div>
+        <div class="sb-val" id="statCpanel" style="color:#355872;">KES 6,000</div>
+      </div>
+      <div class="stat-box">
+        <div class="sb-lbl">Zoho / Year</div>
+        <div class="sb-val" id="statZoho" style="color:#7AAACE;">KES 9,750</div>
+      </div>
+      <div class="stat-box">
+        <div class="sb-lbl">Annual Delta</div>
+        <div class="sb-val" id="statDelta">+3,750</div>
+      </div>
+      <div class="stat-box">
+        <div class="sb-lbl">Zoho Total Storage</div>
+        <div class="sb-val" id="statStorage" style="color:#355872;">25 GB</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Comparison -->
+  <section>
+    <h2 class="section-title">Feature Comparison</h2>
+    <p class="section-sub">Price is only part of the story. Here is what changes when you move to a dedicated mail platform.</p>
+
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+      <table class="feat-table">
+        <thead>
+          <tr>
+            <th style="width:38%">Feature</th>
+            <th style="width:31%">cPanel Shared</th>
+            <th style="width:31%">Zoho Mail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>IP Reputation<small>Affects inbox delivery rates</small></td>
+            <td><span class="partial">~</span><br><small>Shared with all cPanel neighbours</small></td>
+            <td><span class="yes">✓</span><br><small>Enterprise IP pools, actively monitored</small></td>
+          </tr>
+          <tr>
+            <td>Storage Isolation<small>Per-user dedicated space</small></td>
+            <td><span class="no">✗</span><br><small>One bucket: files + databases + email</small></td>
+            <td><span class="yes">✓</span><br><small>5–50 GB dedicated per user</small></td>
+          </tr>
+          <tr>
+            <td>Mobile App<small>Native iOS / Android</small></td>
+            <td><span class="no">✗</span><br><small>Manual IMAP/SMTP setup required</small></td>
+            <td><span class="yes">✓</span><br><small>Zoho Mail app, pre-configured</small></td>
+          </tr>
+          <tr>
+            <td>SPF / DKIM / DMARC<small>Email authentication protocols</small></td>
+            <td><span class="partial">~</span><br><small>Possible but entirely manual</small></td>
+            <td><span class="yes">✓</span><br><small>Guided setup with live monitoring</small></td>
+          </tr>
+          <tr>
+            <td>Admin Controls<small>Manage all accounts centrally</small></td>
+            <td><span class="no">✗</span><br><small>Basic cPanel user accounts only</small></td>
+            <td><span class="yes">✓</span><br><small>Full admin console, roles & policies</small></td>
+          </tr>
+          <tr>
+            <td>Calendar, Tasks & Notes<small>Built-in collaboration tools</small></td>
+            <td><span class="partial">~</span><br><small>Basic webmail calendar only</small></td>
+            <td><span class="yes">✓</span><br><small>Full suite included in all plans</small></td>
+          </tr>
+          <tr>
+            <td>Uptime SLA<small>Guaranteed service availability</small></td>
+            <td><span class="partial">~</span><br><small>Shared hosting terms, varies</small></td>
+            <td><span class="yes">✓</span><br><small>99.9% guaranteed uptime</small></td>
+          </tr>
+          <tr>
+            <td>Email Independent of Website<small>Site downtime affects email</small></td>
+            <td><span class="no">✗</span><br><small>Tied to the same hosting account</small></td>
+            <td><span class="yes">✓</span><br><small>Fully decoupled from your website</small></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:12px 16px;background:#f3f8fc;border-top:1px solid var(--border);" class="legend">
+        <span><span class="yes" style="width:18px;height:18px;font-size:9px;">✓</span> Supported</span>
+        <span><span class="no" style="width:18px;height:18px;font-size:9px;">✗</span> Not available</span>
+        <span><span class="partial" style="width:18px;height:18px;font-size:9px;">~</span> Partial / manual</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Migration Steps -->
+  <section>
+    <h2 class="section-title">How the Migration Works</h2>
+    <p class="section-sub">Four structured steps to move to Zoho Mail without downtime or data loss. Your website is not affected.</p>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-tag">DNS</div>
+        <h4>Update DNS Records</h4>
+        <p>Change MX, SPF, and DKIM records in your domain registrar or cPanel Zone Editor to point to Zoho's mail servers.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-tag">IMAP</div>
+        <h4>Migrate Email History</h4>
+        <p>Use Zoho's built-in IMAP migration tool to import existing emails from cPanel before the old plan is cancelled.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-tag">Users</div>
+        <h4>Onboard Your Team</h4>
+        <p>Each person downloads the Zoho Mail app or reconfigures Outlook / Thunderbird using new credentials from the admin.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-tag">Hosting</div>
+        <h4>Keep Your Website</h4>
+        <p>Your website stays on cPanel. Moving email away may allow you to downgrade to a cheaper hosting plan as well.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendation -->
+  <section style="margin-bottom:0;">
+    <h2 class="section-title">Recommendation</h2>
+    <p class="section-sub">Based on the parameters selected in the simulator above.</p>
+
+    <div class="rec-box">
+      <div class="rec-lbl">My Analysis</div>
+      <p class="rec-text" id="recText">Calculating recommendation...</p>
+      <div class="rec-numbers">
+        <div>
+          <div class="rn-lbl">cPanel / Year</div>
+          <div class="rn-val" id="recCpanel" style="color:var(--blue);">—</div>
+        </div>
+        <div>
+          <div class="rn-lbl">Zoho / Year</div>
+          <div class="rn-val" id="recZoho" style="color:var(--light);">—</div>
+        </div>
+        <div>
+          <div class="rn-lbl">Annual Difference</div>
+          <div class="rn-val" id="recDelta">—</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Figures based on 1 USD = 130 KES. Estimates only — confirm final pricing with Zoho directly before committing.</p>
+</footer>
+
+<script>
+  const state = { users: 5, cpanel: 6000, plan: 'lite' };
+  const plans = {
+    lite:    { costUsd: 1.25, storage: 5 },
+    premium: { costUsd: 4,    storage: 50 }
+  };
+  const FX = 130, CPANEL_STORAGE = 25;
+
+  let costChart, storChart;
+
+  function calc() {
+    const p = plans[state.plan];
+    const zoho = state.users * p.costUsd * 12 * FX;
+    const breakeven = Math.ceil(state.cpanel / (p.costUsd * 12 * FX));
+    const storage = state.users * p.storage;
+    const delta = zoho - state.cpanel;
+    const ratio = (zoho / state.cpanel).toFixed(1);
+    return { zoho, breakeven, storage, delta, ratio };
+  }
+
+  function fmt(n) { return 'KES ' + Math.round(n).toLocaleString(); }
+
+  function update() {
+    const d = calc();
+
+    document.getElementById('heroBreakeven').textContent = '~' + d.breakeven + ' Users';
+    document.getElementById('heroCostRatio').textContent = d.ratio + '×';
+    document.getElementById('breakEvenDisplay').textContent = '~' + d.breakeven + ' Users';
+
+    document.getElementById('statCpanel').textContent = fmt(state.cpanel);
+    document.getElementById('statZoho').textContent = fmt(d.zoho);
+    const deltaEl = document.getElementById('statDelta');
+    deltaEl.textContent = (d.delta >= 0 ? '+' : '-') + 'KES ' + Math.abs(Math.round(d.delta)).toLocaleString();
+    deltaEl.style.color = d.delta < 0 ? '#1a7a47' : '#b91c1c';
+    document.getElementById('statStorage').textContent = d.storage + ' GB';
+
+    document.getElementById('recCpanel').textContent = fmt(state.cpanel);
+    document.getElementById('recZoho').textContent = fmt(d.zoho);
+    const rde = document.getElementById('recDelta');
+    rde.textContent = (d.delta >= 0 ? '+' : '-') + 'KES ' + Math.abs(Math.round(d.delta)).toLocaleString();
+    rde.style.color = d.delta < 0 ? '#9CD5FF' : '#fca5a5';
+
+    let rec = '';
+    if (d.delta < 0) {
+      rec = `<strong>Migrate to Zoho Mail.</strong> At ${state.users} user${state.users > 1 ? 's' : ''}, Zoho costs KES ${Math.abs(Math.round(d.delta)).toLocaleString()} less per year than cPanel. You also gain dedicated storage per user, enterprise email deliverability, a native mobile app, and a full admin console. Both the financial and operational case point clearly in one direction.`;
+    } else if (d.ratio < 1.5) {
+      rec = `<strong>Worth the upgrade.</strong> Zoho costs KES ${Math.round(d.delta).toLocaleString()} more per year — a modest premium for ${state.users} user${state.users > 1 ? 's' : ''}. In return you get dedicated per-user storage, cleaner email deliverability through enterprise IP pools, a native mobile app, and email that operates independently from your website hosting.`;
+    } else if (d.ratio < 2.5) {
+      rec = `<strong>Weigh the trade-offs.</strong> At ${state.users} users, Zoho is ${d.ratio}× your current cPanel cost. If email reliability is business-critical — and for most organisations it is — the deliverability improvements and storage isolation justify the increase. Starting with the Lite plan reduces the initial outlay.`;
+    } else {
+      rec = `<strong>Significant increase at this scale.</strong> With ${state.users} users, Zoho is ${d.ratio}× your cPanel cost. This is normal when large teams move to dedicated email. Consider whether all users need full mailboxes, or if some can use distribution aliases to reduce the license count.`;
+    }
+    document.getElementById('recText').innerHTML = rec;
+
+    costChart.data.datasets[0].data = [state.cpanel, d.zoho];
+    costChart.update();
+    storChart.data.datasets[0].data = [CPANEL_STORAGE, d.storage];
+    storChart.update();
+  }
+
+  function initCharts() {
+    const base = (unit) => ({
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#355872', titleColor: '#9CD5FF',
+          bodyColor: '#fff', padding: 10, cornerRadius: 6,
+          callbacks: { label: ctx => unit === 'KES' ? 'KES ' + ctx.parsed.y.toLocaleString() : ctx.parsed.y + ' GB' }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { font: { family: 'IBM Plex Sans', size: 12 }, color: '#5e7a8a' } },
+        y: { beginAtZero: true, grid: { color: '#e3ecf2' }, border: { display: false },
+          ticks: { font: { family: 'IBM Plex Sans', size: 11 }, color: '#5e7a8a', callback: v => unit === 'KES' ? 'KES ' + v.toLocaleString() : v + ' GB' }
+        }
+      }
+    });
+
+    costChart = new Chart(document.getElementById('costChart').getContext('2d'), {
+      type: 'bar',
+      data: { labels: ['cPanel Hosting', 'Zoho Mail'], datasets: [{ data: [0,0], backgroundColor: ['#355872','#7AAACE'], borderRadius: 6, barThickness: 50 }] },
+      options: base('KES')
+    });
+
+    storChart = new Chart(document.getElementById('storageChart').getContext('2d'), {
+      type: 'bar',
+      data: { labels: ['cPanel (Shared Pool)', 'Zoho (Aggregate)'], datasets: [{ data: [0,0], backgroundColor: ['#355872','#9CD5FF'], borderRadius: 6, barThickness: 50 }] },
+      options: base('GB')
+    });
+  }
+
+  document.getElementById('userSlider').addEventListener('input', e => {
+    state.users = parseInt(e.target.value);
+    document.getElementById('userDisplay').textContent = state.users;
+    update();
+  });
+
+  document.getElementById('cpanelSlider').addEventListener('input', e => {
+    state.cpanel = parseInt(e.target.value);
+    document.getElementById('cpanelDisplay').textContent = parseInt(e.target.value).toLocaleString();
+    update();
+  });
+
+  document.getElementById('planSelect').addEventListener('change', e => {
+    state.plan = e.target.value;
+    update();
+  });
+
+  document.addEventListener('DOMContentLoaded', () => { initCharts(); update(); });
+</script>
+</body>
+</html>
