@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Playlist ✨</title>
+<title>Curator ✨</title>
 
 <!--
   ╔══════════════════════════════════════════════════════════════════╗
@@ -710,17 +710,14 @@ body {
      Emotional hook → value preview → CTA
      ══════════════════════════════════════════ -->
 <main id="auth-screen" role="main">
-  <div class="auth-vinyl" aria-hidden="true"></div>
-
-  <p class="auth-eyebrow">A gift from me to you 💚</p>
 
   <h1 class="auth-title">
-    Relive a day we<br><em>listened together</em>
+    Relive a day we<br><em>listened together💚</em>
   </h1>
 
   <p class="auth-sub">
     I built this so you can browse back through Spotify history,
-    find that playlist we had on shuffle, and save it — yours forever.
+    find that playlist we had on shuffle, and save it forever.
   </p>
 
   <!-- /onboard — 3-step preview chips so she knows what happens -->
@@ -744,7 +741,7 @@ body {
   </button>
 
   <p class="auth-note">
-    Only your listening history is accessed. Nothing is stored anywhere —
+    Only your listening history is accessed. Nothing is stored anywhere and
     everything runs entirely in your browser.
   </p>
 </main>
@@ -900,7 +897,7 @@ let activeMonth  = null;
 let activeDay    = null;
 let hintDismissed = false;
 
-// ─── Boot ──────
+// ─── Boot ────
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const code   = params.get('code');
@@ -917,7 +914,7 @@ function cleanUrl() {
   window.history.replaceState({}, '', REDIRECT_URI);
 }
 
-// ─── PKCE ──────
+// ─── PKCE ────
 function randStr(len = 128) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
   const arr = new Uint8Array(len);
@@ -931,7 +928,7 @@ async function pkceChallenge(verifier) {
     .replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
 }
 
-// ─── Auth ───────
+// ─── Auth ─────
 async function startAuth() {
   if (!CLIENT_ID || CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
     showToast('⚠️ Open the HTML file and paste your Client ID first!', 'err');
@@ -1624,7 +1621,7 @@ async function handleCreatePlaylist() { openNamingModal(); }
 
 function closeModal() { document.getElementById('modal').classList.remove('show'); }
 
-// ─── Utils ──────
+// ─── Utils ────
 function esc(s) {
   return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
