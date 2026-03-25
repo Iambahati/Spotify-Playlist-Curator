@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playlist Curator ✨</title>
+<title>Our Playlist ✨</title>
 
 <!--
   ╔══════════════════════════════════════════════════════════════════╗
@@ -293,11 +293,49 @@ body {
 .picker-shell {
   background: var(--card); border: 1px solid var(--border);
   border-radius: var(--r-lg); overflow: hidden; margin-bottom: 24px;
+  transition: border-color 0.2s;
 }
+/* Collapsed: only the nav bar is visible */
+.picker-shell.collapsed .picker-body-wrap,
+.picker-shell.collapsed .picker-hint { display: none; }
+
 .picker-nav {
   display: flex; align-items: center;
   padding: 12px 18px; border-bottom: 1px solid var(--border); gap: 8px;
+  cursor: default;
 }
+/* When collapsed the nav border disappears (nothing below it) */
+.picker-shell.collapsed .picker-nav { border-bottom: none; }
+
+/* Expand/collapse toggle chevron */
+.picker-toggle {
+  display: none;   /* hidden until a date is selected */
+  align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: var(--r-sm);
+  background: none; border: 1px solid var(--border);
+  color: var(--text-sub); cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.25s var(--ease-out);
+  flex-shrink: 0;
+}
+.picker-toggle:hover { background: var(--card-hov); color: var(--text); }
+.picker-toggle svg { transition: transform 0.25s var(--ease-out); display: block; }
+/* Chevron points down when expanded, up when collapsed */
+.picker-shell.collapsed .picker-toggle svg { transform: rotate(180deg); }
+
+/* Selected-date pill shown in the nav when collapsed */
+.picker-date-pill {
+  display: none;
+  align-items: center; gap: 6px;
+  background: var(--sp-green-dim);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--r-pill);
+  padding: 4px 10px;
+  font-size: var(--t-caption); font-weight: 700;
+  color: var(--sp-green-hov);
+  white-space: nowrap;
+}
+.picker-shell.collapsed .picker-date-pill { display: flex; }
 .breadcrumb {
   display: flex; align-items: center; gap: 6px;
   font-size: var(--t-label); color: var(--text-sub); flex: 1; flex-wrap: wrap;
@@ -672,16 +710,17 @@ body {
      Emotional hook → value preview → CTA
      ══════════════════════════════════════════ -->
 <main id="auth-screen" role="main">
-  <!-- <div class="auth-vinyl" aria-hidden="true"></div> -->
+  <div class="auth-vinyl" aria-hidden="true"></div>
 
+  <p class="auth-eyebrow">A gift from me to you 💚</p>
 
   <h1 class="auth-title">
-    Relive a day we<br><em>listened together 💚</em>
+    Relive a day we<br><em>listened together</em>
   </h1>
 
   <p class="auth-sub">
     I built this so you can browse back through Spotify history,
-    find that playlist we had on shuffle, and save it forever.
+    find that playlist we had on shuffle, and save it — yours forever.
   </p>
 
   <!-- /onboard — 3-step preview chips so she knows what happens -->
@@ -705,7 +744,7 @@ body {
   </button>
 
   <p class="auth-note">
-    Only your listening history is accessed. Nothing is stored anywhere and
+    Only your listening history is accessed. Nothing is stored anywhere —
     everything runs entirely in your browser.
   </p>
 </main>
@@ -729,10 +768,25 @@ body {
 
     <!-- /onboard — picker has a hint bar the first time -->
     <div class="picker-shell" id="picker-shell" role="navigation" aria-label="Date picker">
-      <div class="picker-nav">
+      <div class="picker-nav" id="picker-nav">
         <div class="breadcrumb" id="breadcrumb" aria-label="Current location in date picker">
           <span class="crumb active" aria-current="page" id="bc-year"></span>
         </div>
+        <!-- Shown only when collapsed: a green pill with the chosen date -->
+        <div class="picker-date-pill" id="picker-date-pill" aria-hidden="true"></div>
+        <!-- Expand / collapse toggle — visible only after a date is selected -->
+        <button
+          class="picker-toggle" id="picker-toggle"
+          onclick="togglePicker()"
+          aria-label="Toggle date picker"
+          aria-expanded="true"
+          aria-controls="picker-body-wrap picker-hint"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 4.5l4 4 4-4" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
       <div class="picker-body-wrap">
         <div class="picker-body" id="picker-body"></div>
@@ -754,22 +808,40 @@ body {
   </div>
 </div>
 
-<!-- Bottom bar -->
+<!-- Bottom bar — shows selected count + trigger button -->
 <div class="bottom-bar" id="bottom-bar" role="region" aria-label="Selection controls">
   <div class="sel-summary">
     <div class="sel-count" id="sel-count" aria-live="polite" aria-label="Selected songs count">0</div>
     <div class="sel-label">songs selected</div>
   </div>
-  <input
-    class="pname-input" id="pname"
-    placeholder="Name your playlist…"
-    maxlength="100"
-    aria-label="Playlist name"
-  >
-  <button class="btn-save" id="btn-save" onclick="handleCreatePlaylist()" aria-label="Save playlist to Spotify">
+  <button class="btn-save" id="btn-save" onclick="openNamingModal()" aria-label="Save playlist to Spotify">
     <span class="btn-spinner" aria-hidden="true"></span>
-    <span class="btn-label">Save Playlist</span>
+    <span class="btn-label">Save Playlist →</span>
   </button>
+</div>
+
+<!-- Naming modal — appears when Save is clicked, before API call -->
+<div class="overlay" id="naming-modal" role="dialog" aria-modal="true" aria-labelledby="naming-title">
+  <div class="modal">
+    <div class="modal-icon" aria-hidden="true">🎵</div>
+    <h2 id="naming-title">Name your playlist</h2>
+    <p id="naming-sub">Give this collection a name — or keep the suggestion.</p>
+    <input
+      class="pname-input" id="pname"
+      placeholder="✨ March 26, 2025 Mix"
+      maxlength="100"
+      aria-label="Playlist name"
+      style="width:100%;max-width:none;margin-bottom:20px;display:block;box-sizing:border-box;"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();confirmSave();}"
+    >
+    <div class="modal-btns">
+      <button class="btn-primary" id="btn-confirm-save" onclick="confirmSave()">
+        <span class="confirm-spinner" style="display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,0.25);border-top-color:#000;border-radius:50%;animation:vinylSpin 0.6s linear infinite;margin-right:6px;vertical-align:middle;" aria-hidden="true"></span>
+        Save to Spotify
+      </button>
+      <button class="btn-ghost" onclick="closeNamingModal()">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- Success modal -->
@@ -793,13 +865,18 @@ body {
 const CLIENT_ID = '4fa796b8bd95422899ddb78e502b6bdd';
 
 // ─── Config ────
+// playlist-read-private is required alongside modify scopes since Spotify's Nov 2024 enforcement
 const SCOPES = [
   'user-read-recently-played',
   'playlist-modify-public',
   'playlist-modify-private',
+  'playlist-read-private',
   'user-read-private',
   'user-read-email'
 ].join(' ');
+
+// Bump this whenever scopes change — forces re-auth for all users with stale tokens
+const SCOPE_VERSION = 'v3';
 
 const REDIRECT_URI = (() => {
   const u = window.location.href.split('?')[0].split('#')[0];
@@ -815,7 +892,7 @@ const MONTHS     = ['January','February','March','April','May','June',
                     'July','August','September','October','November','December'];
 const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-// ─── State ────
+// ─── State ─────
 let accessToken  = null;
 let currentUser  = null;
 let allTracks    = [];
@@ -823,7 +900,7 @@ let activeMonth  = null;
 let activeDay    = null;
 let hintDismissed = false;
 
-// ─── Boot ────
+// ─── Boot ──────
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const code   = params.get('code');
@@ -840,7 +917,7 @@ function cleanUrl() {
   window.history.replaceState({}, '', REDIRECT_URI);
 }
 
-// ─── PKCE────
+// ─── PKCE ──────
 function randStr(len = 128) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
   const arr = new Uint8Array(len);
@@ -854,7 +931,7 @@ async function pkceChallenge(verifier) {
     .replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
 }
 
-// ─── Auth─────
+// ─── Auth ───────
 async function startAuth() {
   if (!CLIENT_ID || CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
     showToast('⚠️ Open the HTML file and paste your Client ID first!', 'err');
@@ -913,20 +990,80 @@ async function exchangeCode(code) {
 }
 
 function saveToken(token, expiresIn, refresh) {
-  localStorage.setItem('sp_tok', token);
-  localStorage.setItem('sp_exp', Date.now() + expiresIn * 1000);
+  localStorage.setItem('sp_tok',        token);
+  localStorage.setItem('sp_exp',        Date.now() + expiresIn * 1000);
+  localStorage.setItem('sp_scope_ver',  SCOPE_VERSION);  // mark which scope set this token has
   if (refresh) localStorage.setItem('sp_ref', refresh);
 }
 
 function loadToken() {
-  const t = localStorage.getItem('sp_tok');
-  const e = parseInt(localStorage.getItem('sp_exp') || '0');
+  const t  = localStorage.getItem('sp_tok');
+  const e  = parseInt(localStorage.getItem('sp_exp') || '0');
+  const sv = localStorage.getItem('sp_scope_ver');
+  // If scope version doesn't match, the stored token is missing the new scopes — discard it
+  if (sv !== SCOPE_VERSION) {
+    ['sp_tok','sp_exp','sp_ref'].forEach(k => localStorage.removeItem(k));
+    return null;
+  }
   return (t && Date.now() < e - 60000) ? t : null;
 }
 
 function logout() {
-  ['sp_tok','sp_exp','sp_ref','pkce_v','oauth_s'].forEach(k => localStorage.removeItem(k));
-  accessToken = null; currentUser = null; allTracks = [];
+  // ── Clear auth storage ──────────────────────────────────────────
+  ['sp_tok','sp_exp','sp_ref','sp_scope_ver','pkce_v','oauth_s']
+    .forEach(k => localStorage.removeItem(k));
+
+  // ── Reset all JS state ──────────────────────────────────────────
+  accessToken   = null;
+  currentUser   = null;
+  allTracks     = [];
+  activeMonth   = null;
+  activeDay     = null;
+  hintDismissed = false;
+
+  // ── Reset DOM ───────────────────────────────────────────────────
+  // User chip
+  const av = document.getElementById('av');
+  av.innerHTML = '?';
+  document.getElementById('uname').textContent = '…';
+
+  // Picker — expand, hide toggle, clear date pill & breadcrumb
+  const shell  = document.getElementById('picker-shell');
+  const toggle = document.getElementById('picker-toggle');
+  const pill   = document.getElementById('picker-date-pill');
+  shell.classList.remove('collapsed');
+  if (toggle) { toggle.style.display = 'none'; toggle.setAttribute('aria-expanded','true'); }
+  if (pill)   { pill.textContent = ''; }
+  document.getElementById('breadcrumb').innerHTML =
+    `<span class="crumb active" aria-current="page">${CUR_YEAR}</span>`;
+
+  // Clear picker body (remove any rendered month/day grid)
+  const pickerBody = document.getElementById('picker-body');
+  if (pickerBody) pickerBody.innerHTML = '';
+
+  // Restore picker hint
+  const hint = document.getElementById('picker-hint');
+  if (hint) {
+    hint.style.display = 'flex';
+    hint.innerHTML = '<span class="hint-arrow" aria-hidden="true">↑</span> Tap a month to see its days';
+  }
+
+  // Tracks area back to welcome state
+  document.getElementById('warn-box').classList.remove('show');
+  document.getElementById('tracks-wrap').innerHTML = `
+    <div class="state-box">
+      <span class="ico" aria-hidden="true">📅</span>
+      <h3>Choose a day above</h3>
+      <p>Start with a month — then we'll show what you were both listening to.</p>
+    </div>`;
+
+  // Hide bottom bar & close any open modals
+  hideBotBar();
+  document.getElementById('sel-count').textContent = '0';
+  document.getElementById('modal').classList.remove('show');
+  document.getElementById('naming-modal').classList.remove('show');
+
+  // ── Swap screens ────────────────────────────────────────────────
   document.getElementById('app').style.display         = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
 }
@@ -983,6 +1120,11 @@ function renderMonthView() {
 
   body.appendChild(grid);
   showPickerHint('↑ Tap a month to see its days');
+
+  // Always expand when navigating back to month view
+  expandPicker();
+  const toggle = document.getElementById('picker-toggle');
+  if (toggle) toggle.style.display = 'none'; // hide until a date is chosen again
 
   resetTrackArea(
     'Choose a day above',
@@ -1091,6 +1233,49 @@ function showPickerHint(text) {
   hint.style.display = 'flex';
 }
 
+// ─── Picker collapse / expand ─────────────────────────────────────
+function collapsePicker(dateLabel) {
+  const shell  = document.getElementById('picker-shell');
+  const toggle = document.getElementById('picker-toggle');
+  const pill   = document.getElementById('picker-date-pill');
+
+  // Show the toggle button (hidden until a date is picked)
+  toggle.style.display = 'flex';
+  toggle.setAttribute('aria-expanded', 'false');
+
+  // Fill the date pill
+  pill.textContent = dateLabel;
+
+  // Collapse with a smooth height transition
+  shell.classList.add('collapsed');
+
+  // Scroll so tracks are immediately visible
+  setTimeout(() => {
+    const wrap = document.getElementById('tracks-wrap');
+    if (wrap) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 80);
+}
+
+function expandPicker() {
+  const shell  = document.getElementById('picker-shell');
+  const toggle = document.getElementById('picker-toggle');
+  shell.classList.remove('collapsed');
+  toggle.setAttribute('aria-expanded', 'true');
+}
+
+function togglePicker() {
+  const shell = document.getElementById('picker-shell');
+  if (shell.classList.contains('collapsed')) {
+    expandPicker();
+  } else {
+    // Only allow manual collapse after a date has been chosen
+    if (activeDay !== null) {
+      const label = `${MONTHS[activeMonth].slice(0,3)} ${activeDay}`;
+      collapsePicker(label);
+    }
+  }
+}
+
 // ─── Day Selected ─────────────────────────────────────────────────
 function selectDay(day, cell) {
   document.querySelectorAll('.day-cell.selected').forEach(c => c.classList.remove('selected'));
@@ -1105,6 +1290,10 @@ function selectDay(day, cell) {
 
   document.getElementById('pname').value =
     `✨ ${MONTHS[activeMonth]} ${day}, ${CUR_YEAR}`;
+
+  // Collapse the picker so the track list has full screen space
+  const label = `${MONTHS[activeMonth].slice(0,3)} ${day}, ${CUR_YEAR}`;
+  collapsePicker(label);
 
   loadDay(dateStr);
 }
@@ -1300,7 +1489,7 @@ function updateBar() {
 
 function hideBotBar() { document.getElementById('bottom-bar').classList.remove('up'); }
 
-// ─── API  ────
+// ─── API  (/normalize — single fetchWebApi, dead spotifyFetch removed) ────────
 async function fetchWebApi(endpoint, method, body) {
   const url = endpoint.startsWith('http')
     ? endpoint
@@ -1316,7 +1505,16 @@ async function fetchWebApi(endpoint, method, body) {
   });
 
   if (res.status === 401) { logout(); throw new Error('Session expired — please reconnect.'); }
-  if (res.status === 403) { throw new Error('Permission denied. Check your Spotify app scopes.'); }
+  if (res.status === 403) {
+    const body = await res.json().catch(()=>({}));
+    const msg  = body?.error?.message || 'Forbidden';
+    // Scope mismatch: force a fresh login so the user re-authorises with correct permissions
+    if (msg.toLowerCase().includes('scope') || msg.toLowerCase().includes('permission')) {
+      ['sp_tok','sp_exp','sp_ref','sp_scope_ver'].forEach(k => localStorage.removeItem(k));
+      throw new Error('Permission error — your session needs a refresh. Logging you out so you can reconnect with the right permissions.');
+    }
+    throw new Error(`Forbidden: ${msg}`);
+  }
   if (res.status === 429) {
     const wait = parseInt(res.headers.get('Retry-After') || '2') * 1000;
     await new Promise(r => setTimeout(r, wait));
@@ -1330,11 +1528,13 @@ async function fetchWebApi(endpoint, method, body) {
   return res.json();
 }
 
-// ─── Playlist Creation ────
+// ─── Playlist Creation ────────────────────────────────────────────
+// Pure async function — mirrors Spotify tutorial pattern exactly
 async function createPlaylist(tracksUri, name, description) {
-  const { id: user_id } = await fetchWebApi('v1/me', 'GET');
-
-  const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
+  // Use /v1/me/playlists — the /v1/users/{id}/playlists endpoint can 403
+  // with "You cannot create a playlist for another user" if the user_id doesn't
+  // exactly match the authenticated user's canonical ID
+  const playlist = await fetchWebApi('v1/me/playlists', 'POST', {
     name,
     description,
     public: false
@@ -1357,19 +1557,39 @@ async function createPlaylist(tracksUri, name, description) {
   return playlist;
 }
 
-// UI handler
-async function handleCreatePlaylist() {
+// Open the naming modal — pre-fills with a date-based suggestion
+function openNamingModal() {
   if (!currentUser) { showToast('Not logged in.', 'err'); return; }
-
   const rows = document.querySelectorAll('.track-row.on');
-  if (!rows.length) { showToast('Select at least one track.', 'err'); return; }
+  if (!rows.length) { showToast('Select at least one song first.', 'err'); return; }
 
+  const suggested = `✨ ${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR}`;
+  const input = document.getElementById('pname');
+  input.value = suggested;
+
+  document.getElementById('naming-sub').textContent =
+    `${rows.length} song${rows.length !== 1 ? 's' : ''} selected — give this playlist a name.`;
+
+  document.getElementById('naming-modal').classList.add('show');
+  // Focus the input after the modal animates in
+  setTimeout(() => { input.focus(); input.select(); }, 120);
+}
+
+function closeNamingModal() {
+  document.getElementById('naming-modal').classList.remove('show');
+}
+
+// Called when user confirms the name and hits Save
+async function confirmSave() {
   const name = document.getElementById('pname').value.trim()
     || `${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR}`;
 
-  const btn = document.getElementById('btn-save');
-  btn.disabled = true;
-  btn.classList.add('loading');
+  const confirmBtn = document.getElementById('btn-confirm-save');
+  const spinner    = confirmBtn.querySelector('.confirm-spinner');
+  confirmBtn.disabled = true;
+  spinner.style.display = 'inline-block';
+
+  const rows = document.querySelectorAll('.track-row.on');
 
   try {
     const tracksUri = [];
@@ -1383,22 +1603,28 @@ async function handleCreatePlaylist() {
 
     const playlist = await createPlaylist(tracksUri, name, description);
 
+    // Close naming modal, open success modal
+    closeNamingModal();
     document.getElementById('modal-msg').textContent =
       `"${name}" with ${tracksUri.length} track${tracksUri.length !== 1 ? 's' : ''} is now in ${currentUser.display_name || 'your'}'s Spotify.`;
     document.getElementById('modal-link').href = playlist.external_urls?.spotify || '#';
     document.getElementById('modal').classList.add('show');
 
   } catch (e) {
+    closeNamingModal();
     showToast(`Failed: ${e.message}`, 'err');
   } finally {
-    btn.disabled = false;
-    btn.classList.remove('loading');
+    confirmBtn.disabled = false;
+    spinner.style.display = 'none';
   }
 }
 
+// Keep for compatibility — not wired to the button anymore but safe to leave
+async function handleCreatePlaylist() { openNamingModal(); }
+
 function closeModal() { document.getElementById('modal').classList.remove('show'); }
 
-// ─── Utils ────
+// ─── Utils ──────
 function esc(s) {
   return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
