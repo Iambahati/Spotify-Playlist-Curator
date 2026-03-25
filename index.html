@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curator ✨</title>
 
-<!--
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curator ✨</title>
+
+  <!--
   ╔══════════════════════════════════════════════════════════════════╗
   ║  Impeccable audit applied:                                       ║
   ║  /typeset   — fixed scale, unified type roles, no ad-hoc px     ║
@@ -16,1365 +17,1996 @@
   ╚══════════════════════════════════════════════════════════════════╝
 -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- /typeset: DM Serif Display (display) + Figtree (body, replaces bland Inter) + Space Mono (data) -->
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- /typeset: DM Serif Display (display) + Figtree (body, replaces bland Inter) + Space Mono (data) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
 
-<style>
-/* ════════════════════════════════════════════════════
+  <style>
+    /* ════════════════════════════════════════════════════
    /normalize — single token layer, no magic numbers
    ════════════════════════════════════════════════════ */
-:root {
-  /* Brand */
-  --sp-green:      #1DB954;
-  --sp-green-hov:  #1ed760;
-  --sp-green-dim:  rgba(29, 185, 84, 0.12);
-  --sp-green-glow: rgba(29, 185, 84, 0.28);
+    :root {
+      /* Brand */
+      --sp-green: #1DB954;
+      --sp-green-hov: #1ed760;
+      --sp-green-dim: rgba(29, 185, 84, 0.12);
+      --sp-green-glow: rgba(29, 185, 84, 0.28);
 
-  /* Surface scale — tinted neutrals, never pure grey (/polish anti-pattern) */
-  --bg:       #0b0c0b;   /* near-black with green tint */
-  --surface:  #131413;
-  --card:     #1a1c1a;
-  --card-hov: #222422;
-  --card-hi:  #1f261f;   /* green-tinted card for selected state */
-  --border:   rgba(255, 255, 255, 0.07);
-  --border-hi: rgba(29, 185, 84, 0.25);
+      /* Surface scale — tinted neutrals, never pure grey (/polish anti-pattern) */
+      --bg: #0b0c0b;
+      /* near-black with green tint */
+      --surface: #131413;
+      --card: #1a1c1a;
+      --card-hov: #222422;
+      --card-hi: #1f261f;
+      /* green-tinted card for selected state */
+      --border: rgba(255, 255, 255, 0.07);
+      --border-hi: rgba(29, 185, 84, 0.25);
 
-  /* Text — warm off-white, never pure #fff on dark (/polish) */
-  --text:      #f2f3f2;
-  --text-sub:  #9ba89b;  /* tinted sub-text, not flat grey */
-  --text-muted:#556055;
+      /* Text — warm off-white, never pure #fff on dark (/polish) */
+      --text: #f2f3f2;
+      --text-sub: #9ba89b;
+      /* tinted sub-text, not flat grey */
+      --text-muted: #556055;
 
-  /* Semantic */
-  --danger:    #e03040;
-  --warn-text: #f5c842;
-  --warn-bg:   rgba(245, 200, 66, 0.07);
-  --warn-bdr:  rgba(245, 200, 66, 0.22);
+      /* Semantic */
+      --danger: #e03040;
+      --warn-text: #f5c842;
+      --warn-bg: rgba(245, 200, 66, 0.07);
+      --warn-bdr: rgba(245, 200, 66, 0.22);
 
-  /* /typeset — fixed app type scale (px not fluid, per impeccable v1.5.1) */
-  --t-display: 2.8rem;   /* 44.8px — auth headline only */
-  --t-heading: 1.75rem;  /* 28px  — page headings */
-  --t-title:   1.125rem; /* 18px  — section titles, modal headings */
-  --t-body:    0.9375rem;/* 15px  — primary body */
-  --t-label:   0.8125rem;/* 13px  — secondary / labels */
-  --t-caption: 0.6875rem;/* 11px  — timestamps, tags */
+      /* /typeset — fixed app type scale (px not fluid, per impeccable v1.5.1) */
+      --t-display: 2.8rem;
+      /* 44.8px — auth headline only */
+      --t-heading: 1.75rem;
+      /* 28px  — page headings */
+      --t-title: 1.125rem;
+      /* 18px  — section titles, modal headings */
+      --t-body: 0.9375rem;
+      /* 15px  — primary body */
+      --t-label: 0.8125rem;
+      /* 13px  — secondary / labels */
+      --t-caption: 0.6875rem;
+      /* 11px  — timestamps, tags */
 
-  /* /typeset — unified easing tokens (/animate) */
-  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+      /* /typeset — unified easing tokens (/animate) */
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* /normalize — radius token (no more hardcoded 8px vs 10px) */
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 14px;
-  --r-xl: 20px;
-  --r-pill: 500px;
-}
+      /* /normalize — radius token (no more hardcoded 8px vs 10px) */
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+      --r-xl: 20px;
+      --r-pill: 500px;
+    }
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Figtree', system-ui, sans-serif;
-  font-size: var(--t-body);
-  line-height: 1.5;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* /polish — global focus ring (was completely absent) */
-:focus-visible {
-  outline: 2px solid var(--sp-green);
-  outline-offset: 3px;
-  border-radius: var(--r-sm);
-}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Figtree', system-ui, sans-serif;
+      font-size: var(--t-body);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-/* Ambient glow */
-.glow {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 55% at 50% -5%, rgba(29,185,84,0.11) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 25% at 85% 85%, rgba(29,185,84,0.04) 0%, transparent 55%);
-}
+    /* /polish — global focus ring (was completely absent) */
+    :focus-visible {
+      outline: 2px solid var(--sp-green);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
 
-/* ════════════════════════════════════════════════════
+    /* Ambient glow */
+    .glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% -5%, rgba(29, 185, 84, 0.11) 0%, transparent 60%),
+        radial-gradient(ellipse 35% 25% at 85% 85%, rgba(29, 185, 84, 0.04) 0%, transparent 55%);
+    }
+
+    /* ════════════════════════════════════════════════════
    /onboard — AUTH WALL
    Emotional hook first, permission ask second.
    Show a value preview before asking for login.
    ════════════════════════════════════════════════════ */
-#auth-screen {
-  position: relative; z-index: 10;
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 48px 24px;
-  text-align: center;
-  /* /animate — staggered entrance via CSS custom props */
-}
+    #auth-screen {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      text-align: center;
+      /* /animate — staggered entrance via CSS custom props */
+    }
 
-/* /animate — vinyl with subtle halo pulse, not just a spin */
-.auth-vinyl {
-  width: 100px; height: 100px; border-radius: 50%;
-  background: conic-gradient(
-    var(--sp-green) 0deg 36deg, var(--card) 36deg 72deg,
-    var(--sp-green) 72deg 108deg, var(--surface) 108deg 144deg,
-    var(--sp-green) 144deg 180deg, var(--card) 180deg 216deg,
-    var(--sp-green) 216deg 252deg, var(--surface) 252deg 288deg,
-    var(--sp-green) 288deg 324deg, var(--card) 324deg 360deg
-  );
-  display: flex; align-items: center; justify-content: center;
-  animation: vinylSpin 10s linear infinite, haloBreath 4s ease-in-out infinite;
-  margin-bottom: 36px;
-  /* /animate — entrance */
-  opacity: 0;
-  animation: vinylSpin 10s linear infinite, haloBreath 4s 1s ease-in-out infinite, fadeUp 0.7s var(--ease-out) 0.05s forwards;
-}
-.auth-vinyl::after {
-  content: ''; width: 28px; height: 28px; border-radius: 50%;
-  background: var(--bg);
-  box-shadow: inset 0 0 0 3px var(--surface), 0 0 0 1px rgba(29,185,84,0.2);
-}
+    /* /animate — vinyl with subtle halo pulse, not just a spin */
+    .auth-vinyl {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: conic-gradient(var(--sp-green) 0deg 36deg, var(--card) 36deg 72deg,
+          var(--sp-green) 72deg 108deg, var(--surface) 108deg 144deg,
+          var(--sp-green) 144deg 180deg, var(--card) 180deg 216deg,
+          var(--sp-green) 216deg 252deg, var(--surface) 252deg 288deg,
+          var(--sp-green) 288deg 324deg, var(--card) 324deg 360deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: vinylSpin 10s linear infinite, haloBreath 4s ease-in-out infinite;
+      margin-bottom: 36px;
+      /* /animate — entrance */
+      opacity: 0;
+      animation: vinylSpin 10s linear infinite, haloBreath 4s 1s ease-in-out infinite, fadeUp 0.7s var(--ease-out) 0.05s forwards;
+    }
 
-@keyframes vinylSpin { to { transform: rotate(360deg); } }
-@keyframes haloBreath {
-  0%, 100% { box-shadow: 0 0 40px var(--sp-green-glow), 0 0 80px rgba(29,185,84,0.06); }
-  50%       { box-shadow: 0 0 70px var(--sp-green-glow), 0 0 120px rgba(29,185,84,0.12); }
-}
+    .auth-vinyl::after {
+      content: '';
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg);
+      box-shadow: inset 0 0 0 3px var(--surface), 0 0 0 1px rgba(29, 185, 84, 0.2);
+    }
 
-/* /onboard — auth copy with emotional framing */
-.auth-eyebrow {
-  font-size: var(--t-caption);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--sp-green);
-  margin-bottom: 12px;
-  opacity: 0;
-  animation: fadeUp 0.6s var(--ease-out) 0.2s forwards;
-}
+    @keyframes vinylSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
-.auth-title {
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-size: clamp(2rem, 6vw, var(--t-display));
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-  margin-bottom: 16px;
-  color: var(--text);
-  opacity: 0;
-  animation: fadeUp 0.6s var(--ease-out) 0.3s forwards;
-}
-.auth-title em { color: var(--sp-green); font-style: italic; }
+    @keyframes haloBreath {
 
-.auth-sub {
-  font-size: var(--t-body);
-  color: var(--text-sub);
-  max-width: 360px;
-  line-height: 1.65;
-  margin-bottom: 12px;
-  opacity: 0;
-  animation: fadeUp 0.6s var(--ease-out) 0.4s forwards;
-}
+      0%,
+      100% {
+        box-shadow: 0 0 40px var(--sp-green-glow), 0 0 80px rgba(29, 185, 84, 0.06);
+      }
 
-/* /onboard — 3-step preview so user knows exactly what they'll get */
-.auth-steps {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 36px;
-  flex-wrap: wrap;
-  justify-content: center;
-  opacity: 0;
-  animation: fadeUp 0.6s var(--ease-out) 0.5s forwards;
-}
-.auth-step {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r-pill);
-  padding: 6px 12px;
-  font-size: var(--t-caption);
-  font-weight: 600;
-  color: var(--text-sub);
-}
-.auth-step .step-icon { font-size: 12px; }
+      50% {
+        box-shadow: 0 0 70px var(--sp-green-glow), 0 0 120px rgba(29, 185, 84, 0.12);
+      }
+    }
 
-.btn-auth {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--sp-green); color: #000; border: none;
-  border-radius: var(--r-pill); padding: 15px 40px;
-  font-family: 'Figtree', sans-serif;
-  font-size: var(--t-body); font-weight: 700; letter-spacing: 0.03em;
-  cursor: pointer;
-  transition: background 0.2s var(--ease-out), transform 0.15s var(--ease-out), box-shadow 0.2s;
-  box-shadow: 0 4px 28px var(--sp-green-glow);
-  opacity: 0;
-  animation: fadeUp 0.6s var(--ease-out) 0.6s forwards;
-}
-.btn-auth:hover  { background: var(--sp-green-hov); transform: translateY(-2px); box-shadow: 0 8px 36px var(--sp-green-glow); }
-.btn-auth:active { transform: translateY(0); }
-.btn-auth svg { flex-shrink: 0; }
+    /* /onboard — auth copy with emotional framing */
+    .auth-eyebrow {
+      font-size: var(--t-caption);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sp-green);
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.2s forwards;
+    }
 
-.auth-note {
-  margin-top: 20px;
-  font-size: var(--t-caption);
-  color: var(--text-muted);
-  max-width: 300px;
-  line-height: 1.65;
-  opacity: 0;
-  animation: fadeUp 0.5s var(--ease-out) 0.75s forwards;
-}
+    .auth-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(2rem, 6vw, var(--t-display));
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.3s forwards;
+    }
 
-/* ════════════════════════════════════════════════════
+    .auth-title em {
+      color: var(--sp-green);
+      font-style: italic;
+    }
+
+    .auth-sub {
+      font-size: var(--t-body);
+      color: var(--text-sub);
+      max-width: 360px;
+      line-height: 1.65;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.4s forwards;
+    }
+
+    /* /onboard — 3-step preview so user knows exactly what they'll get */
+    .auth-steps {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.5s forwards;
+    }
+
+    .auth-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-pill);
+      padding: 6px 12px;
+      font-size: var(--t-caption);
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    .auth-step .step-icon {
+      font-size: 12px;
+    }
+
+    .btn-auth {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--sp-green);
+      color: #000;
+      border: none;
+      border-radius: var(--r-pill);
+      padding: 15px 40px;
+      font-family: 'Figtree', sans-serif;
+      font-size: var(--t-body);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background 0.2s var(--ease-out), transform 0.15s var(--ease-out), box-shadow 0.2s;
+      box-shadow: 0 4px 28px var(--sp-green-glow);
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.6s forwards;
+    }
+
+    .btn-auth:hover {
+      background: var(--sp-green-hov);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 36px var(--sp-green-glow);
+    }
+
+    .btn-auth:active {
+      transform: translateY(0);
+    }
+
+    .btn-auth svg {
+      flex-shrink: 0;
+    }
+
+    .auth-note {
+      margin-top: 20px;
+      font-size: var(--t-caption);
+      color: var(--text-muted);
+      max-width: 300px;
+      line-height: 1.65;
+      opacity: 0;
+      animation: fadeUp 0.5s var(--ease-out) 0.75s forwards;
+    }
+
+    /* ════════════════════════════════════════════════════
    APP SHELL
    ════════════════════════════════════════════════════ */
-#app { display: none; position: relative; z-index: 10; min-height: 100vh; }
+    #app {
+      display: none;
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+    }
 
-.topbar {
-  position: sticky; top: 0; z-index: 200; height: 58px;
-  background: rgba(11, 12, 11, 0.94);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; padding: 0 20px; gap: 12px;
-}
-.topbar-logo {
-  font-family: 'DM Serif Display', serif;
-  font-size: var(--t-title); letter-spacing: -0.01em; flex: 1;
-  color: var(--text);
-}
-.topbar-logo em { color: var(--sp-green); font-style: italic; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: 58px;
+      background: rgba(11, 12, 11, 0.94);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 12px;
+    }
 
-/* /normalize — consistent chip component */
-.user-chip {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--r-pill); padding: 5px 13px 5px 5px;
-  font-size: var(--t-label); font-weight: 600; color: var(--text);
-}
-.user-chip .av {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--sp-green), #0a5e28);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 700; color: #000;
-  overflow: hidden; flex-shrink: 0;
-}
-.user-chip .av img { width: 100%; height: 100%; object-fit: cover; }
+    .topbar-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: var(--t-title);
+      letter-spacing: -0.01em;
+      flex: 1;
+      color: var(--text);
+    }
 
-/* /normalize — single ghost button style */
-.btn-ghost {
-  background: none; border: 1px solid var(--text-muted);
-  color: var(--text-sub); border-radius: var(--r-pill);
-  padding: 5px 13px; font-family: 'Figtree', sans-serif;
-  font-size: var(--t-caption); font-weight: 600;
-  cursor: pointer; transition: border-color 0.2s, color 0.2s;
-}
-.btn-ghost:hover { border-color: var(--text); color: var(--text); }
+    .topbar-logo em {
+      color: var(--sp-green);
+      font-style: italic;
+    }
 
-/* ════════════════════════════════════════════════════
+    /* /normalize — consistent chip component */
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-pill);
+      padding: 5px 13px 5px 5px;
+      font-size: var(--t-label);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .user-chip .av {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sp-green), #0a5e28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #000;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .user-chip .av img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* /normalize — single ghost button style */
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--text-muted);
+      color: var(--text-sub);
+      border-radius: var(--r-pill);
+      padding: 5px 13px;
+      font-family: 'Figtree', sans-serif;
+      font-size: var(--t-caption);
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    /* ════════════════════════════════════════════════════
    PAGE
    ════════════════════════════════════════════════════ */
-.page { max-width: 840px; margin: 0 auto; padding: 40px 20px 140px; }
+    .page {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 40px 20px 140px;
+    }
 
-.page-heading {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(1.5rem, 4vw, var(--t-heading));
-  letter-spacing: -0.02em; margin-bottom: 6px; color: var(--text);
-}
-.page-heading em { color: var(--sp-green); font-style: italic; }
-.page-sub { font-size: var(--t-label); color: var(--text-sub); margin-bottom: 28px; line-height: 1.6; }
+    .page-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.5rem, 4vw, var(--t-heading));
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
 
-/* ════════════════════════════════════════════════════
+    .page-heading em {
+      color: var(--sp-green);
+      font-style: italic;
+    }
+
+    .page-sub {
+      font-size: var(--t-label);
+      color: var(--text-sub);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════════════════
    PICKER  (/animate — directional slide transition)
    ════════════════════════════════════════════════════ */
-.picker-shell {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--r-lg); overflow: hidden; margin-bottom: 24px;
-  transition: border-color 0.2s;
-}
-/* Collapsed: only the nav bar is visible */
-.picker-shell.collapsed .picker-body-wrap,
-.picker-shell.collapsed .picker-hint { display: none; }
+    .picker-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: 24px;
+      transition: border-color 0.2s;
+    }
 
-.picker-nav {
-  display: flex; align-items: center;
-  padding: 12px 18px; border-bottom: 1px solid var(--border); gap: 8px;
-  cursor: default;
-}
-/* When collapsed the nav border disappears (nothing below it) */
-.picker-shell.collapsed .picker-nav { border-bottom: none; }
+    /* Collapsed: only the nav bar is visible */
+    .picker-shell.collapsed .picker-body-wrap,
+    .picker-shell.collapsed .picker-hint {
+      display: none;
+    }
 
-/* Expand/collapse toggle chevron */
-.picker-toggle {
-  display: none;   /* hidden until a date is selected */
-  align-items: center; justify-content: center;
-  width: 28px; height: 28px;
-  border-radius: var(--r-sm);
-  background: none; border: 1px solid var(--border);
-  color: var(--text-sub); cursor: pointer;
-  transition: background 0.15s, color 0.15s, transform 0.25s var(--ease-out);
-  flex-shrink: 0;
-}
-.picker-toggle:hover { background: var(--card-hov); color: var(--text); }
-.picker-toggle svg { transition: transform 0.25s var(--ease-out); display: block; }
-/* Chevron points down when expanded, up when collapsed */
-.picker-shell.collapsed .picker-toggle svg { transform: rotate(180deg); }
+    .picker-nav {
+      display: flex;
+      align-items: center;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      gap: 8px;
+      cursor: default;
+    }
 
-/* Selected-date pill shown in the nav when collapsed */
-.picker-date-pill {
-  display: none;
-  align-items: center; gap: 6px;
-  background: var(--sp-green-dim);
-  border: 1px solid var(--border-hi);
-  border-radius: var(--r-pill);
-  padding: 4px 10px;
-  font-size: var(--t-caption); font-weight: 700;
-  color: var(--sp-green-hov);
-  white-space: nowrap;
-}
-.picker-shell.collapsed .picker-date-pill { display: flex; }
-.breadcrumb {
-  display: flex; align-items: center; gap: 6px;
-  font-size: var(--t-label); color: var(--text-sub); flex: 1; flex-wrap: wrap;
-}
-.crumb { cursor: pointer; transition: color 0.15s; }
-.crumb:hover { color: var(--sp-green); }
-.crumb.active { color: var(--text); font-weight: 600; cursor: default; }
-.sep { color: var(--text-muted); }
+    /* When collapsed the nav border disappears (nothing below it) */
+    .picker-shell.collapsed .picker-nav {
+      border-bottom: none;
+    }
 
-/* /animate — picker body wrapper for slide transitions */
-.picker-body-wrap { overflow: hidden; position: relative; }
+    /* Expand/collapse toggle chevron */
+    .picker-toggle {
+      display: none;
+      /* hidden until a date is selected */
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-sm);
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, transform 0.25s var(--ease-out);
+      flex-shrink: 0;
+    }
 
-/* /animate — both views use translate-in/out */
-.picker-body {
-  will-change: transform, opacity;
-}
-.picker-body.slide-in-right {
-  animation: slideInRight 0.28s var(--ease-out) both;
-}
-.picker-body.slide-in-left {
-  animation: slideInLeft 0.28s var(--ease-out) both;
-}
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(32px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-32px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
+    .picker-toggle:hover {
+      background: var(--card-hov);
+      color: var(--text);
+    }
 
-/* Month grid */
-.month-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
-  gap: 1px; background: var(--border);
-}
-.month-cell {
-  background: var(--card); padding: 18px 16px;
-  cursor: pointer; transition: background 0.15s var(--ease-out);
-  user-select: none;
-}
-.month-cell:hover { background: var(--card-hov); }
-.month-cell.active { background: var(--card-hi); }
+    .picker-toggle svg {
+      transition: transform 0.25s var(--ease-out);
+      display: block;
+    }
 
-/* /typeset — clear role separation */
-.m-name { font-size: var(--t-label); font-weight: 700; margin-bottom: 3px; color: var(--text); }
-.month-cell.active .m-name { color: var(--sp-green); }
-.m-year { font-size: var(--t-caption); color: var(--text-muted); font-family: 'Space Mono', monospace; }
+    /* Chevron points down when expanded, up when collapsed */
+    .picker-shell.collapsed .picker-toggle svg {
+      transform: rotate(180deg);
+    }
 
-/* Day calendar */
-.day-outer { padding: 14px 16px; }
-.dow-row {
-  display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px;
-}
-.dow-hdr {
-  text-align: center; padding: 4px 2px;
-  font-size: var(--t-caption); font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
-}
-.day-grid {
-  display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
-}
-.day-cell {
-  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-  border-radius: var(--r-sm); cursor: pointer;
-  font-size: var(--t-label); font-weight: 500; color: var(--text);
-  transition: background 0.15s, color 0.15s;
-  user-select: none; position: relative;
-}
-.day-cell:hover:not(.empty):not(.future) { background: var(--card-hov); }
-.day-cell.empty { pointer-events: none; }
-.day-cell.today { color: var(--sp-green); font-weight: 700; }
-/* /polish — today indicator is visible but not competing */
-.day-cell.today::after {
-  content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
-  width: 3px; height: 3px; border-radius: 50%; background: var(--sp-green);
-}
-.day-cell.future { opacity: 0.18; pointer-events: none; }
-.day-cell.selected {
-  background: var(--sp-green-dim); color: var(--sp-green-hov); font-weight: 700;
-  box-shadow: inset 0 0 0 1px var(--border-hi);
-}
+    /* Selected-date pill shown in the nav when collapsed */
+    .picker-date-pill {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: var(--sp-green-dim);
+      border: 1px solid var(--border-hi);
+      border-radius: var(--r-pill);
+      padding: 4px 10px;
+      font-size: var(--t-caption);
+      font-weight: 700;
+      color: var(--sp-green-hov);
+      white-space: nowrap;
+    }
 
-/* /onboard — month hint shown first time only */
-.picker-hint {
-  font-size: var(--t-caption); color: var(--text-muted);
-  padding: 10px 18px; border-top: 1px solid var(--border);
-  display: flex; align-items: center; gap: 6px;
-}
-.picker-hint .hint-arrow { color: var(--sp-green); font-size: 14px; }
+    .picker-shell.collapsed .picker-date-pill {
+      display: flex;
+    }
 
-/* ════════════════════════════════════════════════════
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--t-label);
+      color: var(--text-sub);
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .crumb {
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .crumb:hover {
+      color: var(--sp-green);
+    }
+
+    .crumb.active {
+      color: var(--text);
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .sep {
+      color: var(--text-muted);
+    }
+
+    /* /animate — picker body wrapper for slide transitions */
+    .picker-body-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* /animate — both views use translate-in/out */
+    .picker-body {
+      will-change: transform, opacity;
+    }
+
+    .picker-body.slide-in-right {
+      animation: slideInRight 0.28s var(--ease-out) both;
+    }
+
+    .picker-body.slide-in-left {
+      animation: slideInLeft 0.28s var(--ease-out) both;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(32px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-32px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Month grid */
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .month-cell {
+      background: var(--card);
+      padding: 18px 16px;
+      cursor: pointer;
+      transition: background 0.15s var(--ease-out);
+      user-select: none;
+    }
+
+    .month-cell:hover {
+      background: var(--card-hov);
+    }
+
+    .month-cell.active {
+      background: var(--card-hi);
+    }
+
+    /* /typeset — clear role separation */
+    .m-name {
+      font-size: var(--t-label);
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: var(--text);
+    }
+
+    .month-cell.active .m-name {
+      color: var(--sp-green);
+    }
+
+    .m-year {
+      font-size: var(--t-caption);
+      color: var(--text-muted);
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Day calendar */
+    .day-outer {
+      padding: 14px 16px;
+    }
+
+    .dow-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+    }
+
+    .dow-hdr {
+      text-align: center;
+      padding: 4px 2px;
+      font-size: var(--t-caption);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+
+    .day-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-size: var(--t-label);
+      font-weight: 500;
+      color: var(--text);
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+      position: relative;
+    }
+
+    .day-cell:hover:not(.empty):not(.future) {
+      background: var(--card-hov);
+    }
+
+    .day-cell.empty {
+      pointer-events: none;
+    }
+
+    .day-cell.today {
+      color: var(--sp-green);
+      font-weight: 700;
+    }
+
+    /* /polish — today indicator is visible but not competing */
+    .day-cell.today::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--sp-green);
+    }
+
+    .day-cell.future {
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .day-cell.selected {
+      background: var(--sp-green-dim);
+      color: var(--sp-green-hov);
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px var(--border-hi);
+    }
+
+    /* /onboard — month hint shown first time only */
+    .picker-hint {
+      font-size: var(--t-caption);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .picker-hint .hint-arrow {
+      color: var(--sp-green);
+      font-size: 14px;
+    }
+
+    /* ════════════════════════════════════════════════════
    WARN BOX (/polish — contrast fixed)
    ════════════════════════════════════════════════════ */
-.warn-box {
-  background: var(--warn-bg); border: 1px solid var(--warn-bdr);
-  border-radius: var(--r-md); padding: 14px 16px;
-  font-size: var(--t-label); color: var(--warn-text);
-  margin-bottom: 20px; line-height: 1.65; display: none;
-}
-.warn-box.show { display: block; }
-.warn-box a { color: var(--sp-green); text-decoration: underline; }
+    .warn-box {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-bdr);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      font-size: var(--t-label);
+      color: var(--warn-text);
+      margin-bottom: 20px;
+      line-height: 1.65;
+      display: none;
+    }
 
-/* ════════════════════════════════════════════════════
+    .warn-box.show {
+      display: block;
+    }
+
+    .warn-box a {
+      color: var(--sp-green);
+      text-decoration: underline;
+    }
+
+    /* ════════════════════════════════════════════════════
    STATE BOXES (/onboard — empathetic copy, not generic)
    ════════════════════════════════════════════════════ */
-.state-box {
-  text-align: center; padding: 56px 20px; color: var(--text-sub);
-  animation: fadeUp 0.35s var(--ease-out) both;
-}
-.state-box .ico { font-size: 40px; margin-bottom: 14px; display: block; }
-.state-box h3 { font-size: var(--t-title); color: var(--text); margin-bottom: 8px; font-weight: 600; }
-.state-box p { font-size: var(--t-label); line-height: 1.7; max-width: 360px; margin: 0 auto; }
+    .state-box {
+      text-align: center;
+      padding: 56px 20px;
+      color: var(--text-sub);
+      animation: fadeUp 0.35s var(--ease-out) both;
+    }
 
-/* /animate — spinner uses brand green */
-.spinner {
-  width: 32px; height: 32px;
-  border: 2.5px solid rgba(29, 185, 84, 0.15);
-  border-top-color: var(--sp-green);
-  border-radius: 50%;
-  animation: vinylSpin 0.7s linear infinite;
-  margin: 0 auto 14px;
-}
+    .state-box .ico {
+      font-size: 40px;
+      margin-bottom: 14px;
+      display: block;
+    }
 
-/* ════════════════════════════════════════════════════
+    .state-box h3 {
+      font-size: var(--t-title);
+      color: var(--text);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .state-box p {
+      font-size: var(--t-label);
+      line-height: 1.7;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    /* /animate — spinner uses brand green */
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2.5px solid rgba(29, 185, 84, 0.15);
+      border-top-color: var(--sp-green);
+      border-radius: 50%;
+      animation: vinylSpin 0.7s linear infinite;
+      margin: 0 auto 14px;
+    }
+
+    /* ════════════════════════════════════════════════════
    TRACKS  (/animate — staggered list, /polish — contrast)
    ════════════════════════════════════════════════════ */
-.tracks-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
-}
-.tracks-label { font-size: var(--t-label); color: var(--text-sub); }
-.tracks-label strong { color: var(--text); font-weight: 600; }
-.tracks-hl { color: var(--sp-green); font-weight: 700; }
-.bulk-btns { display: flex; gap: 6px; }
+    .tracks-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
 
-.track-list { display: flex; flex-direction: column; gap: 2px; }
+    .tracks-label {
+      font-size: var(--t-label);
+      color: var(--text-sub);
+    }
 
-/* /animate — each row staggered in */
-.track-row {
-  display: grid;
-  grid-template-columns: 18px 44px 1fr auto;
-  align-items: center; gap: 12px; padding: 9px 12px;
-  border-radius: var(--r-md); cursor: pointer;
-  transition: background 0.12s var(--ease-in-out);
-  border: 1px solid transparent;
-  opacity: 0; /* filled by JS stagger */
-  animation: fadeUp 0.3s var(--ease-out) both;
-}
-.track-row:hover { background: var(--card-hov); }
+    .tracks-label strong {
+      color: var(--text);
+      font-weight: 600;
+    }
 
-/* /polish — selected state: tinted green card, no text-sub on green bg */
-.track-row.on {
-  background: var(--card-hi);
-  border-color: var(--border-hi);
-}
+    .tracks-hl {
+      color: var(--sp-green);
+      font-weight: 700;
+    }
 
-/* /polish — dup rows: subtle, not confusing */
-.track-row.dup { opacity: 0.42; animation: fadeUp 0.3s var(--ease-out) both; }
-.dup-tag {
-  display: inline-block; font-size: 9px; font-weight: 700;
-  letter-spacing: 0.09em; text-transform: uppercase;
-  color: var(--text-muted); background: rgba(255,255,255,0.05);
-  padding: 1px 5px; border-radius: var(--r-sm); margin-left: 6px;
-  vertical-align: middle;
-}
+    .bulk-btns {
+      display: flex;
+      gap: 6px;
+    }
 
-/* Checkbox */
-.chk {
-  width: 18px; height: 18px; border: 2px solid var(--text-muted);
-  border-radius: 4px; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: background 0.12s, border-color 0.12s;
-}
-.track-row.on .chk { background: var(--sp-green); border-color: var(--sp-green); }
-.chk svg { opacity: 0; transition: opacity 0.12s; }
-.track-row.on .chk svg { opacity: 1; }
+    .track-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
 
-.t-art {
-  width: 44px; height: 44px; border-radius: var(--r-sm);
-  object-fit: cover; background: var(--card-hov); flex-shrink: 0;
-  display: block;
-}
+    /* /animate — each row staggered in */
+    .track-row {
+      display: grid;
+      grid-template-columns: 18px 44px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: background 0.12s var(--ease-in-out);
+      border: 1px solid transparent;
+      opacity: 0;
+      /* filled by JS stagger */
+      animation: fadeUp 0.3s var(--ease-out) both;
+      background: var(--card-hov);
+    }
 
-.t-info { min-width: 0; }
+    .track-row:hover {
+      background: var(--card-hov);
+    }
 
-/* /typeset — track name is body weight, artist is sub role */
-.t-name {
-  font-size: var(--t-body); font-weight: 600; color: var(--text);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-/* /polish — on green-tinted bg, use full text not sub (contrast fix) */
-.track-row.on .t-name { color: var(--text); }
+    /* /polish — selected state: tinted green card, no text-sub on green bg */
+    .track-row.on {
+      background: var(--card-hi);
+      border-color: var(--border-hi);
+    }
 
-.t-artist {
-  font-size: var(--t-caption); color: var(--text-sub);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;
-}
-/* /polish — contrast fix: sub text on highlighted row needs more contrast */
-.track-row.on .t-artist { color: var(--text-sub); }
+    /* /polish — dup rows: subtle, not confusing */
+    .track-row.dup {
+      opacity: 0.42;
+      animation: fadeUp 0.3s var(--ease-out) both;
+    }
 
-/* /typeset — timestamps use mono, captions role */
-.t-time {
-  font-size: var(--t-caption); color: var(--text-muted);
-  font-family: 'Space Mono', monospace; white-space: nowrap; flex-shrink: 0;
-  text-align: right;
-}
+    .dup-tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1px 5px;
+      border-radius: var(--r-sm);
+      margin-left: 6px;
+      vertical-align: middle;
+    }
 
-/* ════════════════════════════════════════════════════
+    /* Checkbox */
+    .chk {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--text-muted);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.12s, border-color 0.12s;
+    }
+
+    .track-row.on .chk {
+      background: var(--sp-green);
+      border-color: var(--sp-green);
+    }
+
+    .chk svg {
+      opacity: 0;
+      transition: opacity 0.12s;
+    }
+
+    .track-row.on .chk svg {
+      opacity: 1;
+    }
+
+    .t-art {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r-sm);
+      object-fit: cover;
+      background: var(--card-hov);
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .t-info {
+      min-width: 0;
+    }
+
+    /* /typeset — track name is body weight, artist is sub role */
+    .t-name {
+      font-size: var(--t-body);
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* /polish — on green-tinted bg, use full text not sub (contrast fix) */
+    .track-row.on .t-name {
+      color: var(--text);
+    }
+
+    .t-artist {
+      font-size: var(--t-caption);
+      color: var(--text-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    /* /polish — contrast fix: sub text on highlighted row needs more contrast */
+    .track-row.on .t-artist {
+      color: var(--text-sub);
+    }
+
+    /* /typeset — timestamps use mono, captions role */
+    .t-time {
+      font-size: var(--t-caption);
+      color: var(--text-muted);
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    /* ════════════════════════════════════════════════════
    BOTTOM BAR  (/animate — spring, /polish — loading state)
    ════════════════════════════════════════════════════ */
-.bottom-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
-  background: rgba(15, 16, 15, 0.97);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
-  padding: 14px 20px;
-  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  transform: translateY(110%);
-  transition: transform 0.4s var(--ease-spring);
-}
-.bottom-bar.up { transform: translateY(0); }
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 300;
+      background: rgba(15, 16, 15, 0.97);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      transform: translateY(110%);
+      transition: transform 0.4s var(--ease-spring);
+    }
 
-.sel-summary { flex: 1; min-width: 80px; }
+    .bottom-bar.up {
+      transform: translateY(0);
+    }
 
-/* /animate — count uses tabular numbers, pulses on change */
-.sel-count {
-  font-size: 1.5rem; font-weight: 700; color: var(--sp-green);
-  line-height: 1; font-variant-numeric: tabular-nums;
-  display: inline-block;
-  transition: transform 0.15s var(--ease-spring);
-}
-.sel-count.bump { transform: scale(1.35); }
+    .sel-summary {
+      flex: 1;
+      min-width: 80px;
+    }
 
-.sel-label {
-  font-size: var(--t-caption); color: var(--text-muted); margin-top: 3px;
-  letter-spacing: 0.06em; text-transform: uppercase;
-}
+    /* /animate — count uses tabular numbers, pulses on change */
+    .sel-count {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--sp-green);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      display: inline-block;
+      transition: transform 0.15s var(--ease-spring);
+    }
 
-/* /normalize — unified text input style */
-.pname-input {
-  background: var(--card-hov); border: 1px solid var(--text-muted);
-  border-radius: var(--r-md); padding: 10px 14px;
-  font-family: 'Figtree', sans-serif;
-  font-size: var(--t-label); color: var(--text);
-  flex: 1; min-width: 150px; max-width: 260px; outline: none;
-  transition: border-color 0.2s;
-}
-.pname-input:focus { border-color: var(--sp-green); }
-.pname-input::placeholder { color: var(--text-muted); }
+    .sel-count.bump {
+      transform: scale(1.35);
+    }
 
-/* /polish — save button has proper loading state */
-.btn-save {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--sp-green); color: #000; border: none;
-  border-radius: var(--r-pill); padding: 11px 28px;
-  font-family: 'Figtree', sans-serif;
-  font-size: var(--t-label); font-weight: 700;
-  letter-spacing: 0.04em; text-transform: uppercase;
-  cursor: pointer; white-space: nowrap;
-  transition: background 0.2s var(--ease-out), transform 0.1s, opacity 0.2s;
-}
-.btn-save:hover:not(:disabled) { background: var(--sp-green-hov); }
-.btn-save:active:not(:disabled) { transform: scale(0.97); }
-.btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+    .sel-label {
+      font-size: var(--t-caption);
+      color: var(--text-muted);
+      margin-top: 3px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
-/* /polish — inline spinner for loading state */
-.btn-spinner {
-  width: 14px; height: 14px;
-  border: 2px solid rgba(0,0,0,0.25);
-  border-top-color: #000;
-  border-radius: 50%;
-  animation: vinylSpin 0.6s linear infinite;
-  display: none;
-}
-.btn-save.loading .btn-spinner { display: block; }
-.btn-save.loading .btn-label   { opacity: 0.6; }
+    /* /normalize — unified text input style */
+    .pname-input {
+      background: var(--card-hov);
+      border: 1px solid var(--text-muted);
+      border-radius: var(--r-md);
+      padding: 10px 14px;
+      font-family: 'Figtree', sans-serif;
+      font-size: var(--t-label);
+      color: var(--text);
+      flex: 1;
+      min-width: 150px;
+      max-width: 260px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
 
-/* ════════════════════════════════════════════════════
+    .pname-input:focus {
+      border-color: var(--sp-green);
+    }
+
+    .pname-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* /polish — save button has proper loading state */
+    .btn-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--sp-green);
+      color: #000;
+      border: none;
+      border-radius: var(--r-pill);
+      padding: 11px 28px;
+      font-family: 'Figtree', sans-serif;
+      font-size: var(--t-label);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s var(--ease-out), transform 0.1s, opacity 0.2s;
+    }
+
+    .btn-save:hover:not(:disabled) {
+      background: var(--sp-green-hov);
+    }
+
+    .btn-save:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+
+    .btn-save:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* /polish — inline spinner for loading state */
+    .btn-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(0, 0, 0, 0.25);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: vinylSpin 0.6s linear infinite;
+      display: none;
+    }
+
+    .btn-save.loading .btn-spinner {
+      display: block;
+    }
+
+    .btn-save.loading .btn-label {
+      opacity: 0.6;
+    }
+
+    /* ════════════════════════════════════════════════════
    SUCCESS MODAL
    ════════════════════════════════════════════════════ */
-.overlay {
-  position: fixed; inset: 0; z-index: 500;
-  background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: none; align-items: center; justify-content: center; padding: 20px;
-}
-.overlay.show { display: flex; }
-.modal {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--r-xl); padding: 44px 36px;
-  max-width: 400px; width: 100%; text-align: center;
-  animation: popIn 0.35s var(--ease-spring) both;
-}
-@keyframes popIn {
-  from { opacity: 0; transform: scale(0.88) translateY(12px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-.modal-icon {
-  width: 72px; height: 72px; border-radius: 50%;
-  background: var(--sp-green-dim); border: 2px solid var(--sp-green);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32px; margin: 0 auto 24px;
-  animation: haloBreath 3s ease-in-out infinite;
-}
-.modal h2 { font-size: var(--t-title); font-weight: 700; margin-bottom: 8px; }
-.modal p  { font-size: var(--t-label); color: var(--text-sub); margin-bottom: 28px; line-height: 1.65; }
-.modal-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-.btn-primary {
-  display: inline-block;
-  background: var(--sp-green); color: #000; border: none;
-  border-radius: var(--r-pill); padding: 12px 24px;
-  font-family: 'Figtree', sans-serif;
-  font-size: var(--t-label); font-weight: 700; cursor: pointer;
-  text-decoration: none; letter-spacing: 0.03em; text-transform: uppercase;
-  transition: background 0.2s var(--ease-out);
-}
-.btn-primary:hover { background: var(--sp-green-hov); }
+    .overlay.show {
+      display: flex;
+    }
 
-/* ════════════════════════════════════════════════════
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 44px 36px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      animation: popIn 0.35s var(--ease-spring) both;
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.88) translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 2px;
+      padding: 3px;
+      margin: 0 auto 24px;
+      overflow: hidden;
+      animation: haloBreath 3s ease-in-out infinite;
+    }
+
+    .modal-icon.placeholder {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--sp-green-dim);
+      border: 2px solid var(--sp-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      gap: 0;
+      padding: 0;
+    }
+
+    .modal-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 3px;
+      background: var(--card-hov);
+    }
+
+    .modal-icon div {
+      width: 100%;
+      height: 100%;
+      background: var(--card-hov);
+      border-radius: 3px;
+    }
+
+    .modal h2 {
+      font-size: var(--t-title);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      font-size: var(--t-label);
+      color: var(--text-sub);
+      margin-bottom: 28px;
+      line-height: 1.65;
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--sp-green);
+      color: #000;
+      border: none;
+      border-radius: var(--r-pill);
+      padding: 12px 24px;
+      font-family: 'Figtree', sans-serif;
+      font-size: var(--t-label);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      transition: background 0.2s var(--ease-out);
+    }
+
+    .btn-primary:hover {
+      background: var(--sp-green-hov);
+    }
+
+    /* ════════════════════════════════════════════════════
    TOAST
    ════════════════════════════════════════════════════ */
-.toast {
-  position: fixed; bottom: 116px; left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  background: var(--card-hov); color: var(--text);
-  border: 1px solid var(--border);
-  padding: 10px 22px; border-radius: var(--r-pill);
-  font-size: var(--t-label); font-weight: 600;
-  opacity: 0; transition: opacity 0.25s, transform 0.3s var(--ease-spring);
-  z-index: 999; pointer-events: none; white-space: nowrap;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-}
-.toast.err { background: var(--danger); border-color: var(--danger); }
-.toast.ok  { background: var(--sp-green); color: #000; border-color: var(--sp-green); }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast {
+      position: fixed;
+      bottom: 116px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--card-hov);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 22px;
+      border-radius: var(--r-pill);
+      font-size: var(--t-label);
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.3s var(--ease-spring);
+      z-index: 999;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
 
-/* ════════════════════════════════════════════════════
+    .toast.err {
+      background: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .toast.ok {
+      background: var(--sp-green);
+      color: #000;
+      border-color: var(--sp-green);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ════════════════════════════════════════════════════
    UTILITIES & ANIMATIONS
    ════════════════════════════════════════════════════ */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fade-in { animation: fadeUp 0.4s var(--ease-out) both; }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
 
-/* ════════════════════════════════════════════════════
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeUp 0.4s var(--ease-out) both;
+    }
+
+    /* ════════════════════════════════════════════════════
    RESPONSIVE
    ════════════════════════════════════════════════════ */
-@media (max-width: 540px) {
-  .month-grid { grid-template-columns: repeat(3, 1fr); }
-  .track-row  { grid-template-columns: 18px 38px 1fr; }
-  .t-time     { display: none; }
-  .bottom-bar { flex-direction: column; align-items: stretch; }
-  .pname-input { max-width: none; }
-  .btn-save   { width: 100%; justify-content: center; }
-  .auth-steps { gap: 6px; }
-}
+    @media (max-width: 540px) {
+      .month-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-}
-</style>
+      .track-row {
+        grid-template-columns: 18px 38px 1fr;
+      }
+
+      .t-time {
+        display: none;
+      }
+
+      .bottom-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .pname-input {
+        max-width: none;
+      }
+
+      .btn-save {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .auth-steps {
+        gap: 6px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
-<body>
-<div class="glow" aria-hidden="true"></div>
 
-<!-- ══════════════════════════════════════════
+<body>
+  <div class="glow" aria-hidden="true"></div>
+
+  <!-- ══════════════════════════════════════════
      /onboard — AUTH WALL
      Emotional hook → value preview → CTA
      ══════════════════════════════════════════ -->
-<main id="auth-screen" role="main">
+  <main id="auth-screen" role="main">
 
-  <h1 class="auth-title">
-    Relive a day we<br><em>listened together💚</em>
-  </h1>
+    <h1 class="auth-title">
+      Relive a day we<br><em>listened together💚</em>
+    </h1>
 
-  <p class="auth-sub">
-    I built this so you can browse back through Spotify history,
-    find that playlist we had on shuffle, and save it forever.
-  </p>
+    <p class="auth-sub">
+      I built this so you can browse back through Spotify history,
+      find that playlist we had on shuffle, and save it forever.
+    </p>
 
-  <!-- /onboard — 3-step preview chips so she knows what happens -->
-  <div class="auth-steps" role="list" aria-label="How it works">
-    <div class="auth-step" role="listitem">
-      <span class="step-icon">📅</span> Pick a month & day
+    <!-- /onboard — 3-step preview chips so she knows what happens -->
+    <div class="auth-steps" role="list" aria-label="How it works">
+      <div class="auth-step" role="listitem">
+        <span class="step-icon">📅</span> Pick a month & day
+      </div>
+      <div class="auth-step" role="listitem">
+        <span class="step-icon">✅</span> Select the songs
+      </div>
+      <div class="auth-step" role="listitem">
+        <span class="step-icon">🎵</span> Save to Spotify
+      </div>
     </div>
-    <div class="auth-step" role="listitem">
-      <span class="step-icon">✅</span> Select the songs
-    </div>
-    <div class="auth-step" role="listitem">
-      <span class="step-icon">🎵</span> Save to Spotify
-    </div>
-  </div>
 
-  <button class="btn-auth" onclick="startAuth()" aria-label="Connect your Spotify account">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-    </svg>
-    Connect with Spotify
-  </button>
+    <button class="btn-auth" onclick="startAuth()" aria-label="Connect your Spotify account">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path
+          d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+      </svg>
+      Connect with Spotify
+    </button>
 
-  <p class="auth-note">
-    Only your listening history is accessed. Nothing is stored anywhere and
-    everything runs entirely in your browser.
-  </p>
-</main>
+    <p class="auth-note">
+      Only your listening history is accessed. Nothing is stored anywhere and
+      everything runs entirely in your browser.
+    </p>
+  </main>
 
-<!-- ══════════════════════════════════════════
+  <!-- ══════════════════════════════════════════
      MAIN APP
      ══════════════════════════════════════════ -->
-<div id="app" role="main" aria-label="Our Playlist app">
-  <header class="topbar">
-    <div class="topbar-logo">Our <em>Playlist</em></div>
-    <div class="user-chip" aria-label="Logged in user">
-      <div class="av" id="av" aria-hidden="true">?</div>
-      <span id="uname">…</span>
-    </div>
-    <button class="btn-ghost" onclick="logout()">Log out</button>
-  </header>
+  <div id="app" role="main" aria-label="Curate Playlist app">
+    <header class="topbar">
+      <div class="topbar-logo">Our <em>Playlist</em></div>
+      <div class="user-chip" aria-label="Logged in user">
+        <div class="av" id="av" aria-hidden="true">?</div>
+        <span id="uname">…</span>
+      </div>
+      <button class="btn-ghost" onclick="logout()">Log out</button>
+    </header>
 
-  <div class="page fade-in">
-    <h2 class="page-heading">Browse your <em>history</em></h2>
-    <p class="page-sub">Pick a month, tap a day, check off songs — then save them as a playlist on Spotify.</p>
+    <div class="page fade-in">
+      <h2 class="page-heading">Browse your <em>history</em></h2>
+      <p class="page-sub">Pick a month, tap a day, check off songs — then save them as a playlist on Spotify.</p>
 
-    <!-- /onboard — picker has a hint bar the first time -->
-    <div class="picker-shell" id="picker-shell" role="navigation" aria-label="Date picker">
-      <div class="picker-nav" id="picker-nav">
-        <div class="breadcrumb" id="breadcrumb" aria-label="Current location in date picker">
-          <span class="crumb active" aria-current="page" id="bc-year"></span>
+      <!-- /onboard — picker has a hint bar the first time -->
+      <div class="picker-shell" id="picker-shell" role="navigation" aria-label="Date picker">
+        <div class="picker-nav" id="picker-nav">
+          <div class="breadcrumb" id="breadcrumb" aria-label="Current location in date picker">
+            <span class="crumb active" aria-current="page" id="bc-year"></span>
+          </div>
+          <!-- Shown only when collapsed: a green pill with the chosen date -->
+          <div class="picker-date-pill" id="picker-date-pill" aria-hidden="true"></div>
+          <!-- Expand / collapse toggle — visible only after a date is selected -->
+          <button class="picker-toggle" id="picker-toggle" onclick="togglePicker()" aria-label="Toggle date picker"
+            aria-expanded="true" aria-controls="picker-body-wrap picker-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 4.5l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
         </div>
-        <!-- Shown only when collapsed: a green pill with the chosen date -->
-        <div class="picker-date-pill" id="picker-date-pill" aria-hidden="true"></div>
-        <!-- Expand / collapse toggle — visible only after a date is selected -->
-        <button
-          class="picker-toggle" id="picker-toggle"
-          onclick="togglePicker()"
-          aria-label="Toggle date picker"
-          aria-expanded="true"
-          aria-controls="picker-body-wrap picker-hint"
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 4.5l4 4 4-4" stroke="currentColor" stroke-width="1.8"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="picker-body-wrap">
+          <div class="picker-body" id="picker-body"></div>
+        </div>
+        <div class="picker-hint" id="picker-hint" aria-live="polite">
+          <span class="hint-arrow">↑</span> Tap a month to see its days
+        </div>
+      </div>
+
+      <div class="warn-box" id="warn-box" role="alert"></div>
+
+      <div id="tracks-wrap" aria-live="polite" aria-atomic="false">
+        <div class="state-box">
+          <span class="ico" aria-hidden="true">📅</span>
+          <h3>Choose a day above</h3>
+          <p>Start with a month — then we'll show what you were both listening to.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar — shows selected count + trigger button -->
+  <div class="bottom-bar" id="bottom-bar" role="region" aria-label="Selection controls">
+    <div class="sel-summary">
+      <div class="sel-count" id="sel-count" aria-live="polite" aria-label="Selected songs count">0</div>
+      <div class="sel-label">songs selected</div>
+    </div>
+    <button class="btn-save" id="btn-save" onclick="openNamingModal()" aria-label="Save playlist to Spotify">
+      <span class="btn-spinner" aria-hidden="true"></span>
+      <span class="btn-label">Save Playlist →</span>
+    </button>
+  </div>
+
+  <!-- Naming modal — appears when Save is clicked, before API call -->
+  <div class="overlay" id="naming-modal" role="dialog" aria-modal="true" aria-labelledby="naming-title">
+    <div class="modal">
+      <div class="modal-icon" id="modal-cover" role="img" aria-label="Playlist cover preview"></div>
+      <h2 id="naming-title">Name your playlist</h2>
+      <p id="naming-sub">Give this collection a name — or keep the suggestion.</p>
+      <input class="pname-input" id="pname" placeholder="✨ March 26, 2025 Mix" maxlength="100"
+        aria-label="Playlist name"
+        style="width:100%;max-width:none;margin-bottom:20px;display:block;box-sizing:border-box;"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();confirmSave();}">
+      <div class="modal-btns">
+        <button class="btn-primary" id="btn-confirm-save" onclick="confirmSave()">
+          <span class="confirm-spinner"
+            style="display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,0.25);border-top-color:#000;border-radius:50%;animation:vinylSpin 0.6s linear infinite;margin-right:6px;vertical-align:middle;"
+            aria-hidden="true"></span>
+          Save to Spotify
         </button>
-      </div>
-      <div class="picker-body-wrap">
-        <div class="picker-body" id="picker-body"></div>
-      </div>
-      <div class="picker-hint" id="picker-hint" aria-live="polite">
-        <span class="hint-arrow">↑</span> Tap a month to see its days
-      </div>
-    </div>
-
-    <div class="warn-box" id="warn-box" role="alert"></div>
-
-    <div id="tracks-wrap" aria-live="polite" aria-atomic="false">
-      <div class="state-box">
-        <span class="ico" aria-hidden="true">📅</span>
-        <h3>Choose a day above</h3>
-        <p>Start with a month — then we'll show what you were both listening to.</p>
+        <button class="btn-ghost" onclick="closeNamingModal()">Cancel</button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Bottom bar — shows selected count + trigger button -->
-<div class="bottom-bar" id="bottom-bar" role="region" aria-label="Selection controls">
-  <div class="sel-summary">
-    <div class="sel-count" id="sel-count" aria-live="polite" aria-label="Selected songs count">0</div>
-    <div class="sel-label">songs selected</div>
-  </div>
-  <button class="btn-save" id="btn-save" onclick="openNamingModal()" aria-label="Save playlist to Spotify">
-    <span class="btn-spinner" aria-hidden="true"></span>
-    <span class="btn-label">Save Playlist →</span>
-  </button>
-</div>
-
-<!-- Naming modal — appears when Save is clicked, before API call -->
-<div class="overlay" id="naming-modal" role="dialog" aria-modal="true" aria-labelledby="naming-title">
-  <div class="modal">
-    <div class="modal-icon" aria-hidden="true">🎵</div>
-    <h2 id="naming-title">Name your playlist</h2>
-    <p id="naming-sub">Give this collection a name — or keep the suggestion.</p>
-    <input
-      class="pname-input" id="pname"
-      placeholder="✨ March 26, 2025 Mix"
-      maxlength="100"
-      aria-label="Playlist name"
-      style="width:100%;max-width:none;margin-bottom:20px;display:block;box-sizing:border-box;"
-      onkeydown="if(event.key==='Enter'){event.preventDefault();confirmSave();}"
-    >
-    <div class="modal-btns">
-      <button class="btn-primary" id="btn-confirm-save" onclick="confirmSave()">
-        <span class="confirm-spinner" style="display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,0.25);border-top-color:#000;border-radius:50%;animation:vinylSpin 0.6s linear infinite;margin-right:6px;vertical-align:middle;" aria-hidden="true"></span>
-        Save to Spotify
-      </button>
-      <button class="btn-ghost" onclick="closeNamingModal()">Cancel</button>
+  <!-- Success modal -->
+  <div class="overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-icon" aria-hidden="true">🎉</div>
+      <h2 id="modal-title">Playlist Saved!</h2>
+      <p id="modal-msg">Your playlist has been added to Spotify.</p>
+      <div class="modal-btns">
+        <a class="btn-primary" id="modal-link" href="#" target="_blank" rel="noopener">
+          Open in Spotify
+        </a>
+        <button class="btn-ghost" onclick="closeModal()">Done</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Success modal -->
-<div class="overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="modal">
-    <div class="modal-icon" aria-hidden="true">🎉</div>
-    <h2 id="modal-title">Playlist Saved!</h2>
-    <p id="modal-msg">Your playlist has been added to Spotify.</p>
-    <div class="modal-btns">
-      <a class="btn-primary" id="modal-link" href="#" target="_blank" rel="noopener">
-        Open in Spotify
-      </a>
-      <button class="btn-ghost" onclick="closeModal()">Done</button>
-    </div>
-  </div>
-</div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const CLIENT_ID = '4fa796b8bd95422899ddb78e502b6bdd';
 
-<script>
-const CLIENT_ID = '4fa796b8bd95422899ddb78e502b6bdd';
+    // ─── Config ────
+    // playlist-read-private is required alongside modify scopes since Spotify's Nov 2024 enforcement
+    const SCOPES = [
+      'user-read-recently-played',
+      'playlist-modify-public',
+      'playlist-modify-private',
+      'playlist-read-private',
+      'user-read-private',
+      'user-read-email'
+    ].join(' ');
 
-// ─── Config ────
-// playlist-read-private is required alongside modify scopes since Spotify's Nov 2024 enforcement
-const SCOPES = [
-  'user-read-recently-played',
-  'playlist-modify-public',
-  'playlist-modify-private',
-  'playlist-read-private',
-  'user-read-private',
-  'user-read-email'
-].join(' ');
+    // Bump this whenever scopes change — forces re-auth for all users with stale tokens
+    const SCOPE_VERSION = 'v3';
 
-// Bump this whenever scopes change — forces re-auth for all users with stale tokens
-const SCOPE_VERSION = 'v3';
+    const REDIRECT_URI = (() => {
+      const u = window.location.href.split('?')[0].split('#')[0];
+      return u.endsWith('/') ? u.slice(0, -1) : u;
+    })();
 
-const REDIRECT_URI = (() => {
-  const u = window.location.href.split('?')[0].split('#')[0];
-  return u.endsWith('/') ? u.slice(0, -1) : u;
-})();
+    const NOW = new Date();
+    const CUR_YEAR = NOW.getFullYear();
+    const CUR_MONTH = NOW.getMonth();
+    const CUR_DAY = NOW.getDate();
 
-const NOW       = new Date();
-const CUR_YEAR  = NOW.getFullYear();
-const CUR_MONTH = NOW.getMonth();
-const CUR_DAY   = NOW.getDate();
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    const DAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-const MONTHS     = ['January','February','March','April','May','June',
-                    'July','August','September','October','November','December'];
-const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    // ─── State ─────
+    let accessToken = null;
+    let currentUser = null;
+    let allTracks = [];
+    let activeMonth = null;
+    let activeDay = null;
+    let hintDismissed = false;
 
-// ─── State ─────
-let accessToken  = null;
-let currentUser  = null;
-let allTracks    = [];
-let activeMonth  = null;
-let activeDay    = null;
-let hintDismissed = false;
+    // ─── Boot ────
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      const error = params.get('error');
 
-// ─── Boot ────
-document.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const code   = params.get('code');
-  const error  = params.get('error');
+      if (error) { cleanUrl(); showToast('Login was cancelled.', 'err'); return; }
+      if (code) { exchangeCode(code); return; }
 
-  if (error) { cleanUrl(); showToast('Login was cancelled.', 'err'); return; }
-  if (code)  { exchangeCode(code); return; }
-
-  const saved = loadToken();
-  if (saved) { accessToken = saved; bootApp(); }
-});
-
-function cleanUrl() {
-  window.history.replaceState({}, '', REDIRECT_URI);
-}
-
-// ─── PKCE ────
-function randStr(len = 128) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-  const arr = new Uint8Array(len);
-  crypto.getRandomValues(arr);
-  return Array.from(arr, b => chars[b % chars.length]).join('');
-}
-
-async function pkceChallenge(verifier) {
-  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier));
-  return btoa(String.fromCharCode(...new Uint8Array(hash)))
-    .replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
-}
-
-// ─── Auth ─────
-async function startAuth() {
-  if (!CLIENT_ID || CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
-    showToast('⚠️ Open the HTML file and paste your Client ID first!', 'err');
-    return;
-  }
-  const verifier  = randStr();
-  const challenge = await pkceChallenge(verifier);
-  const state     = randStr(16);
-
-  localStorage.setItem('pkce_v',  verifier);
-  localStorage.setItem('oauth_s', state);
-
-  const url = new URL('https://accounts.spotify.com/authorize');
-  url.searchParams.set('response_type',         'code');
-  url.searchParams.set('client_id',             CLIENT_ID);
-  url.searchParams.set('scope',                 SCOPES);
-  url.searchParams.set('redirect_uri',          REDIRECT_URI);
-  url.searchParams.set('code_challenge_method', 'S256');
-  url.searchParams.set('code_challenge',        challenge);
-  url.searchParams.set('state',                 state);
-  window.location.href = url.toString();
-}
-
-async function exchangeCode(code) {
-  const verifier = localStorage.getItem('pkce_v');
-  if (!verifier) { showToast('Auth session lost. Try again.', 'err'); return; }
-
-  try {
-    const res = await fetch('https://accounts.spotify.com/api/token', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        grant_type:    'authorization_code',
-        code,
-        redirect_uri:  REDIRECT_URI,
-        client_id:     CLIENT_ID,
-        code_verifier: verifier
-      })
+      const saved = loadToken();
+      if (saved) { accessToken = saved; bootApp(); }
     });
 
-    if (!res.ok) {
-      const e = await res.json().catch(()=>({}));
-      throw new Error(e.error_description || `Token exchange failed (${res.status})`);
+    function cleanUrl() {
+      window.history.replaceState({}, '', REDIRECT_URI);
     }
 
-    const data = await res.json();
-    saveToken(data.access_token, data.expires_in, data.refresh_token);
-    accessToken = data.access_token;
-    cleanUrl();
-    bootApp();
+    // ─── PKCE ────
+    function randStr(len = 128) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+      const arr = new Uint8Array(len);
+      crypto.getRandomValues(arr);
+      return Array.from(arr, b => chars[b % chars.length]).join('');
+    }
 
-  } catch (e) {
-    showToast(`Login failed: ${e.message}`, 'err');
-    console.error(e);
-  }
-}
+    async function pkceChallenge(verifier) {
+      const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier));
+      return btoa(String.fromCharCode(...new Uint8Array(hash)))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    }
 
-function saveToken(token, expiresIn, refresh) {
-  localStorage.setItem('sp_tok',        token);
-  localStorage.setItem('sp_exp',        Date.now() + expiresIn * 1000);
-  localStorage.setItem('sp_scope_ver',  SCOPE_VERSION);  // mark which scope set this token has
-  if (refresh) localStorage.setItem('sp_ref', refresh);
-}
+    // ─── Auth ─────
+    async function startAuth() {
+      if (!CLIENT_ID || CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
+        showToast('⚠️ Open the HTML file and paste your Client ID first!', 'err');
+        return;
+      }
+      const verifier = randStr();
+      const challenge = await pkceChallenge(verifier);
+      const state = randStr(16);
 
-function loadToken() {
-  const t  = localStorage.getItem('sp_tok');
-  const e  = parseInt(localStorage.getItem('sp_exp') || '0');
-  const sv = localStorage.getItem('sp_scope_ver');
-  // If scope version doesn't match, the stored token is missing the new scopes — discard it
-  if (sv !== SCOPE_VERSION) {
-    ['sp_tok','sp_exp','sp_ref'].forEach(k => localStorage.removeItem(k));
-    return null;
-  }
-  return (t && Date.now() < e - 60000) ? t : null;
-}
+      localStorage.setItem('pkce_v', verifier);
+      localStorage.setItem('oauth_s', state);
 
-function logout() {
-  // ── Clear auth storage ──────────────────────────────────────────
-  ['sp_tok','sp_exp','sp_ref','sp_scope_ver','pkce_v','oauth_s']
-    .forEach(k => localStorage.removeItem(k));
+      const url = new URL('https://accounts.spotify.com/authorize');
+      url.searchParams.set('response_type', 'code');
+      url.searchParams.set('client_id', CLIENT_ID);
+      url.searchParams.set('scope', SCOPES);
+      url.searchParams.set('redirect_uri', REDIRECT_URI);
+      url.searchParams.set('code_challenge_method', 'S256');
+      url.searchParams.set('code_challenge', challenge);
+      url.searchParams.set('state', state);
+      window.location.href = url.toString();
+    }
 
-  // ── Reset all JS state ──────────────────────────────────────────
-  accessToken   = null;
-  currentUser   = null;
-  allTracks     = [];
-  activeMonth   = null;
-  activeDay     = null;
-  hintDismissed = false;
+    async function exchangeCode(code) {
+      const verifier = localStorage.getItem('pkce_v');
+      if (!verifier) { showToast('Auth session lost. Try again.', 'err'); return; }
 
-  // ── Reset DOM ───────────────────────────────────────────────────
-  // User chip
-  const av = document.getElementById('av');
-  av.innerHTML = '?';
-  document.getElementById('uname').textContent = '…';
+      try {
+        const res = await fetch('https://accounts.spotify.com/api/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            grant_type: 'authorization_code',
+            code,
+            redirect_uri: REDIRECT_URI,
+            client_id: CLIENT_ID,
+            code_verifier: verifier
+          })
+        });
 
-  // Picker — expand, hide toggle, clear date pill & breadcrumb
-  const shell  = document.getElementById('picker-shell');
-  const toggle = document.getElementById('picker-toggle');
-  const pill   = document.getElementById('picker-date-pill');
-  shell.classList.remove('collapsed');
-  if (toggle) { toggle.style.display = 'none'; toggle.setAttribute('aria-expanded','true'); }
-  if (pill)   { pill.textContent = ''; }
-  document.getElementById('breadcrumb').innerHTML =
-    `<span class="crumb active" aria-current="page">${CUR_YEAR}</span>`;
+        if (!res.ok) {
+          const e = await res.json().catch(() => ({}));
+          throw new Error(e.error_description || `Token exchange failed (${res.status})`);
+        }
 
-  // Clear picker body (remove any rendered month/day grid)
-  const pickerBody = document.getElementById('picker-body');
-  if (pickerBody) pickerBody.innerHTML = '';
+        const data = await res.json();
+        saveToken(data.access_token, data.expires_in, data.refresh_token);
+        accessToken = data.access_token;
+        cleanUrl();
+        bootApp();
 
-  // Restore picker hint
-  const hint = document.getElementById('picker-hint');
-  if (hint) {
-    hint.style.display = 'flex';
-    hint.innerHTML = '<span class="hint-arrow" aria-hidden="true">↑</span> Tap a month to see its days';
-  }
+      } catch (e) {
+        showToast(`Login failed: ${e.message}`, 'err');
+        console.error(e);
+      }
+    }
 
-  // Tracks area back to welcome state
-  document.getElementById('warn-box').classList.remove('show');
-  document.getElementById('tracks-wrap').innerHTML = `
+    function saveToken(token, expiresIn, refresh) {
+      localStorage.setItem('sp_tok', token);
+      localStorage.setItem('sp_exp', Date.now() + expiresIn * 1000);
+      localStorage.setItem('sp_scope_ver', SCOPE_VERSION);  // mark which scope set this token has
+      if (refresh) localStorage.setItem('sp_ref', refresh);
+    }
+
+    function loadToken() {
+      const t = localStorage.getItem('sp_tok');
+      const e = parseInt(localStorage.getItem('sp_exp') || '0');
+      const sv = localStorage.getItem('sp_scope_ver');
+      // If scope version doesn't match, the stored token is missing the new scopes — discard it
+      if (sv !== SCOPE_VERSION) {
+        ['sp_tok', 'sp_exp', 'sp_ref'].forEach(k => localStorage.removeItem(k));
+        return null;
+      }
+      return (t && Date.now() < e - 60000) ? t : null;
+    }
+
+    // ─── Token Refresh ─────────────────────────────────────────────────
+    let _refreshing = null; // deduplicate concurrent refresh calls
+    async function refreshToken() {
+      if (_refreshing) return _refreshing;
+      _refreshing = (async () => {
+        const refresh = localStorage.getItem('sp_ref');
+        if (!refresh) throw new Error('No refresh token stored.');
+        const res = await fetch('https://accounts.spotify.com/api/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: refresh,
+            client_id: CLIENT_ID
+          })
+        });
+        if (!res.ok) {
+          const e = await res.json().catch(() => ({}));
+          throw new Error(e.error_description || `Token refresh failed (${res.status})`);
+        }
+        const data = await res.json();
+        // Spotify may issue a new refresh token; update if present
+        saveToken(data.access_token, data.expires_in, data.refresh_token || refresh);
+        accessToken = data.access_token;
+      })();
+      try { await _refreshing; } finally { _refreshing = null; }
+    }
+
+    function logout() {
+      // ── Clear auth storage ──────────────────────────────────────────
+      ['sp_tok', 'sp_exp', 'sp_ref', 'sp_scope_ver', 'pkce_v', 'oauth_s']
+        .forEach(k => localStorage.removeItem(k));
+
+      // ── Reset all JS state ──────────────────────────────────────────
+      accessToken = null;
+      currentUser = null;
+      allTracks = [];
+      activeMonth = null;
+      activeDay = null;
+      hintDismissed = false;
+
+      // ── Reset DOM ───────────────────────────────────────────────────
+      // User chip
+      const av = document.getElementById('av');
+      av.innerHTML = '?';
+      document.getElementById('uname').textContent = '…';
+
+      // Picker — expand, hide toggle, clear date pill & breadcrumb
+      const shell = document.getElementById('picker-shell');
+      const toggle = document.getElementById('picker-toggle');
+      const pill = document.getElementById('picker-date-pill');
+      shell.classList.remove('collapsed');
+      if (toggle) { toggle.style.display = 'none'; toggle.setAttribute('aria-expanded', 'true'); }
+      if (pill) { pill.textContent = ''; }
+      document.getElementById('breadcrumb').innerHTML =
+        `<span class="crumb active" aria-current="page">${CUR_YEAR}</span>`;
+
+      // Clear picker body (remove any rendered month/day grid)
+      const pickerBody = document.getElementById('picker-body');
+      if (pickerBody) pickerBody.innerHTML = '';
+
+      // Restore picker hint
+      const hint = document.getElementById('picker-hint');
+      if (hint) {
+        hint.style.display = 'flex';
+        hint.innerHTML = '<span class="hint-arrow" aria-hidden="true">↑</span> Tap a month to see its days';
+      }
+
+      // Tracks area back to welcome state
+      document.getElementById('warn-box').classList.remove('show');
+      document.getElementById('tracks-wrap').innerHTML = `
     <div class="state-box">
       <span class="ico" aria-hidden="true">📅</span>
       <h3>Choose a day above</h3>
       <p>Start with a month — then we'll show what you were both listening to.</p>
     </div>`;
 
-  // Hide bottom bar & close any open modals
-  hideBotBar();
-  document.getElementById('sel-count').textContent = '0';
-  document.getElementById('modal').classList.remove('show');
-  document.getElementById('naming-modal').classList.remove('show');
+      // Hide bottom bar & close any open modals
+      hideBotBar();
+      document.getElementById('sel-count').textContent = '0';
+      document.getElementById('modal').classList.remove('show');
+      document.getElementById('naming-modal').classList.remove('show');
 
-  // ── Swap screens ────────────────────────────────────────────────
-  document.getElementById('app').style.display         = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-}
-
-// ─── Boot App ─────────────────────────────────────────────────────
-async function bootApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display         = 'block';
-  await loadUser();
-  renderMonthView();
-}
-
-async function loadUser() {
-  try {
-    currentUser = await fetchWebApi('v1/me', 'GET');
-    document.getElementById('uname').textContent = currentUser.display_name || currentUser.id;
-    const avEl   = document.getElementById('av');
-    const imgUrl = currentUser.images?.[0]?.url;
-    if (imgUrl) {
-      avEl.innerHTML = `<img src="${esc(imgUrl)}" alt="${esc(currentUser.display_name || '')}">`;
-    } else {
-      avEl.textContent = (currentUser.display_name || currentUser.id)[0].toUpperCase();
+      // ── Swap screens ────────────────────────────────────────────────
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('auth-screen').style.display = 'flex';
     }
-  } catch (e) { console.error('loadUser', e); }
-}
 
-// ─── Month Picker ─────────────────────────────────────────────────
-function renderMonthView() {
-  activeMonth = null;
-  activeDay   = null;
+    // ─── Boot App ─────────────────────────────────────────────────────
+    async function bootApp() {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      await loadUser();
+      renderMonthView();
+    }
 
-  document.getElementById('breadcrumb').innerHTML =
-    `<span class="crumb active" aria-current="page">${CUR_YEAR}</span>`;
+    async function loadUser() {
+      try {
+        currentUser = await fetchWebApi('v1/me', 'GET');
+        document.getElementById('uname').textContent = currentUser.display_name || currentUser.id;
+        const avEl = document.getElementById('av');
+        const imgUrl = currentUser.images?.[0]?.url;
+        if (imgUrl) {
+          avEl.innerHTML = `<img src="${esc(imgUrl)}" alt="${esc(currentUser.display_name || '')}">`;
+        } else {
+          avEl.textContent = (currentUser.display_name || currentUser.id)[0].toUpperCase();
+        }
+      } catch (e) { console.error('loadUser', e); }
+    }
 
-  // /animate — slide left when going back from day view
-  const body = getPickerBody(activeMonth !== null ? 'slide-in-left' : 'slide-in-right');
+    // ─── Month Picker ─────────────────────────────────────────────────
+    function renderMonthView() {
+      activeMonth = null;
+      activeDay = null;
 
-  const grid = document.createElement('div');
-  grid.className = 'month-grid';
-  grid.setAttribute('role', 'list');
+      document.getElementById('breadcrumb').innerHTML =
+        `<span class="crumb active" aria-current="page">${CUR_YEAR}</span>`;
 
-  for (let m = 0; m <= CUR_MONTH; m++) {
-    const cell = document.createElement('div');
-    cell.className = 'month-cell';
-    cell.setAttribute('role', 'listitem');
-    cell.setAttribute('tabindex', '0');
-    cell.setAttribute('aria-label', `${MONTHS[m]} ${CUR_YEAR}`);
-    cell.innerHTML = `<div class="m-name">${MONTHS[m]}</div><div class="m-year">${CUR_YEAR}</div>`;
-    const _m = m;
-    cell.onclick  = () => renderDayView(_m);
-    cell.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); renderDayView(_m); } };
-    grid.appendChild(cell);
-  }
+      // /animate — slide left when going back from day view
+      const body = getPickerBody(activeMonth !== null ? 'slide-in-left' : 'slide-in-right');
 
-  body.appendChild(grid);
-  showPickerHint('↑ Tap a month to see its days');
+      const grid = document.createElement('div');
+      grid.className = 'month-grid';
+      grid.setAttribute('role', 'list');
 
-  // Always expand when navigating back to month view
-  expandPicker();
-  const toggle = document.getElementById('picker-toggle');
-  if (toggle) toggle.style.display = 'none'; // hide until a date is chosen again
+      for (let m = 0; m <= CUR_MONTH; m++) {
+        const cell = document.createElement('div');
+        cell.className = 'month-cell';
+        cell.setAttribute('role', 'listitem');
+        cell.setAttribute('tabindex', '0');
+        cell.setAttribute('aria-label', `${MONTHS[m]} ${CUR_YEAR}`);
+        cell.innerHTML = `<div class="m-name">${MONTHS[m]}</div><div class="m-year">${CUR_YEAR}</div>`;
+        const _m = m;
+        cell.onclick = () => renderDayView(_m);
+        cell.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); renderDayView(_m); } };
+        grid.appendChild(cell);
+      }
 
-  resetTrackArea(
-    'Choose a day above',
-    'Start with a month — then pick the exact day you want to remember.',
-    '📅'
-  );
-  hideBotBar();
-}
+      body.appendChild(grid);
+      showPickerHint('↑ Tap a month to see its days');
 
-// ─── Day Picker ───────────────────────────────────────────────────
-function renderDayView(month) {
-  activeMonth = month;
-  activeDay   = null;
+      // Always expand when navigating back to month view
+      expandPicker();
+      const toggle = document.getElementById('picker-toggle');
+      if (toggle) toggle.style.display = 'none'; // hide until a date is chosen again
 
-  document.getElementById('breadcrumb').innerHTML =
-    `<span class="crumb" role="button" tabindex="0"
+      resetTrackArea(
+        'Choose a day above',
+        'Start with a month — then pick the exact day you want to remember.',
+        '📅'
+      );
+      hideBotBar();
+    }
+
+    // ─── Day Picker ───────────────────────────────────────────────────
+    function renderDayView(month) {
+      activeMonth = month;
+      activeDay = null;
+
+      document.getElementById('breadcrumb').innerHTML =
+        `<span class="crumb" role="button" tabindex="0"
        onclick="renderMonthView()"
        onkeydown="if(event.key==='Enter'){renderMonthView()}">${CUR_YEAR}</span>
      <span class="sep" aria-hidden="true">›</span>
      <span class="crumb active" aria-current="page">${MONTHS[month]}</span>`;
 
-  // /animate — slide right when going into day view
-  const body = getPickerBody('slide-in-right');
+      // /animate — slide right when going into day view
+      const body = getPickerBody('slide-in-right');
 
-  const outer = document.createElement('div');
-  outer.className = 'day-outer';
+      const outer = document.createElement('div');
+      outer.className = 'day-outer';
 
-  const dowRow = document.createElement('div');
-  dowRow.className = 'dow-row';
-  dowRow.setAttribute('role', 'row');
-  DAYS_SHORT.forEach(d => {
-    const h = document.createElement('div');
-    h.className = 'dow-hdr'; h.textContent = d;
-    h.setAttribute('role', 'columnheader');
-    dowRow.appendChild(h);
-  });
-  outer.appendChild(dowRow);
+      const dowRow = document.createElement('div');
+      dowRow.className = 'dow-row';
+      dowRow.setAttribute('role', 'row');
+      DAYS_SHORT.forEach(d => {
+        const h = document.createElement('div');
+        h.className = 'dow-hdr'; h.textContent = d;
+        h.setAttribute('role', 'columnheader');
+        dowRow.appendChild(h);
+      });
+      outer.appendChild(dowRow);
 
-  const daysInMonth = new Date(CUR_YEAR, month + 1, 0).getDate();
-  const firstDow    = new Date(CUR_YEAR, month, 1).getDay();
+      const daysInMonth = new Date(CUR_YEAR, month + 1, 0).getDate();
+      const firstDow = new Date(CUR_YEAR, month, 1).getDay();
 
-  const grid = document.createElement('div');
-  grid.className = 'day-grid';
-  grid.setAttribute('role', 'grid');
+      const grid = document.createElement('div');
+      grid.className = 'day-grid';
+      grid.setAttribute('role', 'grid');
 
-  for (let i = 0; i < firstDow; i++) {
-    const e = document.createElement('div');
-    e.className = 'day-cell empty';
-    e.setAttribute('aria-hidden', 'true');
-    grid.appendChild(e);
-  }
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const isToday  = (month === CUR_MONTH && d === CUR_DAY);
-    const isFuture = (month === CUR_MONTH && d  >  CUR_DAY);
-
-    const cell = document.createElement('div');
-    cell.className = 'day-cell'
-      + (isToday  ? ' today'  : '')
-      + (isFuture ? ' future' : '');
-    cell.textContent = d;
-    cell.setAttribute('role', 'gridcell');
-
-    if (!isFuture) {
-      cell.setAttribute('tabindex', '0');
-      cell.setAttribute('aria-label', `${MONTHS[month]} ${d}${isToday ? ' (today)' : ''}`);
-      const _d = d;
-      cell.onclick   = () => selectDay(_d, cell);
-      cell.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectDay(_d, cell); } };
-    } else {
-      cell.setAttribute('aria-disabled', 'true');
-    }
-
-    grid.appendChild(cell);
-  }
-
-  outer.appendChild(grid);
-  body.appendChild(outer);
-
-  showPickerHint(`↑ Tap any date in ${MONTHS[month]}`);
-  resetTrackArea(
-    `Pick a day in ${MONTHS[month]}`,
-    'Tap any date to see what was playing that day.',
-    '👆'
-  );
-  hideBotBar();
-}
-
-// helper — creates fresh picker-body with animation class
-function getPickerBody(animClass) {
-  const wrap = document.getElementById('picker-body-wrap') ||
-    document.querySelector('.picker-body-wrap');
-  const old = document.getElementById('picker-body');
-  if (old) old.remove();
-  const body = document.createElement('div');
-  body.className = `picker-body ${animClass}`;
-  body.id = 'picker-body';
-  wrap.appendChild(body);
-  return body;
-}
-
-function showPickerHint(text) {
-  const hint = document.getElementById('picker-hint');
-  if (hintDismissed) { hint.style.display = 'none'; return; }
-  hint.innerHTML = `<span class="hint-arrow" aria-hidden="true">↑</span> ${esc(text)}`;
-  hint.style.display = 'flex';
-}
-
-// ─── Picker collapse / expand ─────────────────────────────────────
-function collapsePicker(dateLabel) {
-  const shell  = document.getElementById('picker-shell');
-  const toggle = document.getElementById('picker-toggle');
-  const pill   = document.getElementById('picker-date-pill');
-
-  // Show the toggle button (hidden until a date is picked)
-  toggle.style.display = 'flex';
-  toggle.setAttribute('aria-expanded', 'false');
-
-  // Fill the date pill
-  pill.textContent = dateLabel;
-
-  // Collapse with a smooth height transition
-  shell.classList.add('collapsed');
-
-  // Scroll so tracks are immediately visible
-  setTimeout(() => {
-    const wrap = document.getElementById('tracks-wrap');
-    if (wrap) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 80);
-}
-
-function expandPicker() {
-  const shell  = document.getElementById('picker-shell');
-  const toggle = document.getElementById('picker-toggle');
-  shell.classList.remove('collapsed');
-  toggle.setAttribute('aria-expanded', 'true');
-}
-
-function togglePicker() {
-  const shell = document.getElementById('picker-shell');
-  if (shell.classList.contains('collapsed')) {
-    expandPicker();
-  } else {
-    // Only allow manual collapse after a date has been chosen
-    if (activeDay !== null) {
-      const label = `${MONTHS[activeMonth].slice(0,3)} ${activeDay}`;
-      collapsePicker(label);
-    }
-  }
-}
-
-// ─── Day Selected ─────────────────────────────────────────────────
-function selectDay(day, cell) {
-  document.querySelectorAll('.day-cell.selected').forEach(c => c.classList.remove('selected'));
-  cell.classList.add('selected');
-  activeDay = day;
-  hintDismissed = true;
-  document.getElementById('picker-hint').style.display = 'none';
-
-  const mm      = String(activeMonth + 1).padStart(2, '0');
-  const dd      = String(day).padStart(2, '0');
-  const dateStr = `${CUR_YEAR}-${mm}-${dd}`;
-
-  document.getElementById('pname').value =
-    `✨ ${MONTHS[activeMonth]} ${day}, ${CUR_YEAR}`;
-
-  // Collapse the picker so the track list has full screen space
-  const label = `${MONTHS[activeMonth].slice(0,3)} ${day}, ${CUR_YEAR}`;
-  collapsePicker(label);
-
-  loadDay(dateStr);
-}
-
-// ─── Fetch History ─────────────────────────────────────────────────
-async function loadDay(dateStr) {
-  const wrap = document.getElementById('tracks-wrap');
-  const warn = document.getElementById('warn-box');
-  warn.classList.remove('show');
-  wrap.innerHTML = '<div class="state-box"><div class="spinner" aria-label="Loading"></div><p>Digging through your listening history…</p></div>';
-  hideBotBar();
-
-  const dayStart = new Date(dateStr + 'T00:00:00'); dayStart.setHours(0,0,0,0);
-  const dayEnd   = new Date(dateStr + 'T00:00:00'); dayEnd.setHours(23,59,59,999);
-
-  try {
-    let items = [], cursor = null;
-
-    for (let page = 0; page < 5; page++) {
-      const ep   = '/me/player/recently-played?limit=50' + (cursor ? `&before=${cursor}` : '');
-      const data = await fetchWebApi(`v1${ep}`, 'GET');
-      const batch = data.items || [];
-      if (!batch.length) break;
-
-      items = items.concat(batch);
-
-      const oldestInPage = new Date(batch[batch.length - 1].played_at);
-      if (oldestInPage < dayStart) break;
-
-      cursor = data.cursors?.before;
-      if (!cursor) break;
-    }
-
-    const dayItems = items.filter(i => {
-      const d = new Date(i.played_at);
-      return d >= dayStart && d <= dayEnd;
-    });
-
-    const oldestFetched = items.length ? new Date(items[items.length - 1].played_at) : null;
-    const dateReachable = oldestFetched ? dayStart >= oldestFetched : false;
-
-    if (!dayItems.length) {
-      if (!dateReachable) {
-        warn.innerHTML =
-          `⚠️ <strong>This date is outside Spotify's history window.</strong> The API only keeps your last ~50 tracks. Songs from further back may no longer be available.<br><br>
-           💡 You can request your full history at <a href="https://www.spotify.com/account/privacy" target="_blank" rel="noopener">spotify.com/account/privacy</a> — it takes up to 30 days to arrive.`;
-        warn.classList.add('show');
+      for (let i = 0; i < firstDow; i++) {
+        const e = document.createElement('div');
+        e.className = 'day-cell empty';
+        e.setAttribute('aria-hidden', 'true');
+        grid.appendChild(e);
       }
-      // /onboard — empathetic empty state with suggestion
-      wrap.innerHTML = `
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const isToday = (month === CUR_MONTH && d === CUR_DAY);
+        const isFuture = (month === CUR_MONTH && d > CUR_DAY);
+
+        const cell = document.createElement('div');
+        cell.className = 'day-cell'
+          + (isToday ? ' today' : '')
+          + (isFuture ? ' future' : '');
+        cell.textContent = d;
+        cell.setAttribute('role', 'gridcell');
+
+        if (!isFuture) {
+          cell.setAttribute('tabindex', '0');
+          cell.setAttribute('aria-label', `${MONTHS[month]} ${d}${isToday ? ' (today)' : ''}`);
+          const _d = d;
+          cell.onclick = () => selectDay(_d, cell);
+          cell.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectDay(_d, cell); } };
+        } else {
+          cell.setAttribute('aria-disabled', 'true');
+        }
+
+        grid.appendChild(cell);
+      }
+
+      outer.appendChild(grid);
+      body.appendChild(outer);
+
+      showPickerHint(`↑ Tap any date in ${MONTHS[month]}`);
+      resetTrackArea(
+        `Pick a day in ${MONTHS[month]}`,
+        'Tap any date to see what was playing that day.',
+        '👆'
+      );
+      hideBotBar();
+    }
+
+    // helper — creates fresh picker-body with animation class
+    function getPickerBody(animClass) {
+      const wrap = document.getElementById('picker-body-wrap') ||
+        document.querySelector('.picker-body-wrap');
+      const old = document.getElementById('picker-body');
+      if (old) old.remove();
+      const body = document.createElement('div');
+      body.className = `picker-body ${animClass}`;
+      body.id = 'picker-body';
+      wrap.appendChild(body);
+      return body;
+    }
+
+    function showPickerHint(text) {
+      const hint = document.getElementById('picker-hint');
+      if (hintDismissed) { hint.style.display = 'none'; return; }
+      hint.innerHTML = `<span class="hint-arrow" aria-hidden="true">↑</span> ${esc(text)}`;
+      hint.style.display = 'flex';
+    }
+
+    // ─── Picker collapse / expand ─────────────────────────────────────
+    function collapsePicker(dateLabel) {
+      const shell = document.getElementById('picker-shell');
+      const toggle = document.getElementById('picker-toggle');
+      const pill = document.getElementById('picker-date-pill');
+
+      // Show the toggle button (hidden until a date is picked)
+      toggle.style.display = 'flex';
+      toggle.setAttribute('aria-expanded', 'false');
+
+      // Fill the date pill
+      pill.textContent = dateLabel;
+
+      // Collapse with a smooth height transition
+      shell.classList.add('collapsed');
+
+      // Scroll so tracks are immediately visible
+      setTimeout(() => {
+        const wrap = document.getElementById('tracks-wrap');
+        if (wrap) wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+    }
+
+    function expandPicker() {
+      const shell = document.getElementById('picker-shell');
+      const toggle = document.getElementById('picker-toggle');
+      shell.classList.remove('collapsed');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    function togglePicker() {
+      const shell = document.getElementById('picker-shell');
+      if (shell.classList.contains('collapsed')) {
+        expandPicker();
+      } else {
+        // Only allow manual collapse after a date has been chosen
+        if (activeDay !== null) {
+          const label = `${MONTHS[activeMonth].slice(0, 3)} ${activeDay}`;
+          collapsePicker(label);
+        }
+      }
+    }
+
+    // ─── Day Selected ─────────────────────────────────────────────────
+    function selectDay(day, cell) {
+      document.querySelectorAll('.day-cell.selected').forEach(c => c.classList.remove('selected'));
+      cell.classList.add('selected');
+      activeDay = day;
+      hintDismissed = true;
+      document.getElementById('picker-hint').style.display = 'none';
+
+      const mm = String(activeMonth + 1).padStart(2, '0');
+      const dd = String(day).padStart(2, '0');
+      const dateStr = `${CUR_YEAR}-${mm}-${dd}`;
+
+      document.getElementById('pname').value =
+        `✨ ${MONTHS[activeMonth]} ${day}, ${CUR_YEAR}`;
+
+      // Collapse the picker so the track list has full screen space
+      const label = `${MONTHS[activeMonth].slice(0, 3)} ${day}, ${CUR_YEAR}`;
+      collapsePicker(label);
+
+      loadDay(dateStr);
+    }
+
+    // ─── Fetch History ─────────────────────────────────────────────────
+    async function loadDay(dateStr) {
+      const wrap = document.getElementById('tracks-wrap');
+      const warn = document.getElementById('warn-box');
+      warn.classList.remove('show');
+      wrap.innerHTML = '<div class="state-box"><div class="spinner" aria-label="Loading"></div><p>Digging through your listening history…</p></div>';
+      hideBotBar();
+
+      const dayStart = new Date(dateStr + 'T00:00:00'); dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(dateStr + 'T00:00:00'); dayEnd.setHours(23, 59, 59, 999);
+
+      try {
+        let items = [], cursor = null;
+
+        for (let page = 0; page < 5; page++) {
+          const ep = '/me/player/recently-played?limit=50' + (cursor ? `&before=${cursor}` : '');
+          const data = await fetchWebApi(`v1${ep}`, 'GET');
+          const batch = data.items || [];
+          if (!batch.length) break;
+
+          items = items.concat(batch);
+
+          const oldestInPage = new Date(batch[batch.length - 1].played_at);
+          if (oldestInPage < dayStart) break;
+
+          cursor = data.cursors?.before;
+          if (!cursor) break;
+        }
+
+        const dayItems = items.filter(i => {
+          const d = new Date(i.played_at);
+          return d >= dayStart && d <= dayEnd;
+        });
+
+        const oldestFetched = items.length ? new Date(items[items.length - 1].played_at) : null;
+        const dateReachable = oldestFetched ? dayStart >= oldestFetched : false;
+
+        if (!dayItems.length) {
+          if (!dateReachable) {
+            warn.innerHTML =
+              `⚠️ <strong>This date is outside Spotify's history window.</strong> The API only keeps your last ~50 tracks. Songs from further back may no longer be available.<br><br>
+           💡 You can request your full history at <a href="https://www.spotify.com/account/privacy" target="_blank" rel="noopener">spotify.com/account/privacy</a> — it takes up to 30 days to arrive.`;
+            warn.classList.add('show');
+          }
+          // /onboard — empathetic empty state with suggestion
+          wrap.innerHTML = `
         <div class="state-box">
           <span class="ico" aria-hidden="true">🎵</span>
           <h3>Nothing here for that day</h3>
           <p>No plays recorded on ${MONTHS[activeMonth]} ${activeDay}. Try a date from the last few weeks — or a day you remember having music on.</p>
         </div>`;
-      return;
-    }
+          return;
+        }
 
-    // Mark duplicate track IDs
-    const seen = new Set();
-    allTracks = dayItems.map(item => {
-      const dup = seen.has(item.track.id);
-      seen.add(item.track.id);
-      return { ...item, dup };
-    });
+        // Mark duplicate track IDs and cache image
+        const seen = new Set();
+        allTracks = dayItems.map(item => {
+          const dup = seen.has(item.track.id);
+          seen.add(item.track.id);
+          const image = item.track.album?.images?.[2]?.url || item.track.album?.images?.[0]?.url || '';
+          return { ...item, dup, image, selected: !dup };
+        });
 
-    renderTracks();
+        renderTracks();
 
-  } catch (e) {
-    wrap.innerHTML = `
+      } catch (e) {
+        wrap.innerHTML = `
       <div class="state-box">
         <span class="ico" aria-hidden="true">⚠️</span>
         <h3>Something went wrong</h3>
         <p>${esc(e.message)}</p>
       </div>`;
-  }
-}
+      }
+    }
 
-// ─── Render Tracks ─────────────────────────────────────────────────
-function renderTracks() {
-  const wrap   = document.getElementById('tracks-wrap');
-  const unique = new Set(allTracks.map(t => t.track.id)).size;
+    // ─── Render Tracks ─────────────────────────────────────────────────
+    function renderTracks() {
+      const wrap = document.getElementById('tracks-wrap');
+      const unique = new Set(allTracks.map(t => t.track.id)).size;
 
-  wrap.innerHTML = `
+      wrap.innerHTML = `
     <div class="tracks-bar">
       <div class="tracks-label">
         <strong>${MONTHS[activeMonth]} ${activeDay}</strong> —
@@ -1389,259 +2021,328 @@ function renderTracks() {
     </div>
     <div class="track-list" id="tlist" role="list" aria-label="Tracks"></div>`;
 
-  const list = document.getElementById('tlist');
+      const list = document.getElementById('tlist');
 
-  // /animate — staggered entrance: each row delayed by 30ms × index
-  allTracks.forEach((item, idx) => {
-    const t    = item.track;
-    const time = new Date(item.played_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const art  = t.album?.images?.[2]?.url || t.album?.images?.[0]?.url || '';
+      // /animate — staggered entrance: each row delayed by 30ms × index
+      allTracks.forEach((item, idx) => {
+        const t = item.track;
+        const time = new Date(item.played_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const art = t.album?.images?.[2]?.url || t.album?.images?.[0]?.url || '';
 
-    const row = document.createElement('div');
-    const selected = !item.dup;
-    row.className  = `track-row${selected ? ' on' : ''}${item.dup ? ' dup' : ''}`;
-    row.dataset.idx = idx;
-    row.setAttribute('role', 'listitem');
-    row.setAttribute('tabindex', '0');
-    row.setAttribute('aria-checked', selected ? 'true' : 'false');
-    row.setAttribute('aria-label', `${t.name} by ${t.artists?.map(a => a.name).join(', ')} at ${time}`);
+        const row = document.createElement('div');
+        const selected = !item.dup;
+        row.className = `track-row${selected ? ' on' : ''}${item.dup ? ' dup' : ''}`;
+        row.dataset.idx = idx;
+        row.setAttribute('role', 'listitem');
+        row.setAttribute('tabindex', '0');
+        row.setAttribute('aria-checked', selected ? 'true' : 'false');
+        row.setAttribute('aria-label', `${t.name} by ${t.artists?.map(a => a.name).join(', ')} at ${time}`);
 
-    // /animate — stagger delay capped at 600ms so late items don't wait forever
-    const delay = Math.min(idx * 30, 600);
-    row.style.animationDelay = `${delay}ms`;
+        // /animate — stagger delay capped at 600ms so late items don't wait forever
+        const delay = Math.min(idx * 30, 600);
+        row.style.animationDelay = `${delay}ms`;
 
-    row.innerHTML = `
+        row.innerHTML = `
       <div class="chk" aria-hidden="true">
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
           <path d="M1.5 5.5l3 3 5-5" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
       ${art
-        ? `<img class="t-art" src="${esc(art)}" alt="${esc(t.album?.name || '')}" loading="lazy">`
-        : `<div class="t-art" aria-hidden="true"></div>`}
+            ? `<img class="t-art" src="${esc(art)}" alt="${esc(t.album?.name || '')}" loading="lazy">`
+            : `<div class="t-art" aria-hidden="true"></div>`}
       <div class="t-info">
         <div class="t-name">${esc(t.name)}${item.dup ? '<span class="dup-tag" aria-label="Duplicate">repeat</span>' : ''}</div>
         <div class="t-artist">${esc(t.artists?.map(a => a.name).join(', ') || '')}</div>
       </div>
       <div class="t-time" aria-label="Played at ${time}">${time}</div>`;
 
-    row.addEventListener('click', () => toggleRow(row));
-    row.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleRow(row); }
-    });
+        row.addEventListener('click', () => toggleRow(row));
+        row.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleRow(row); }
+        });
 
-    list.appendChild(row);
-  });
+        list.appendChild(row);
+      });
 
-  updateBar();
-}
-
-function toggleRow(row) {
-  const on = row.classList.toggle('on');
-  row.setAttribute('aria-checked', on ? 'true' : 'false');
-  updateBar();
-}
-
-// ─── Selection ─────────────────────────────────────────────────────
-function selAll() {
-  document.querySelectorAll('.track-row').forEach(r => {
-    r.classList.add('on'); r.setAttribute('aria-checked', 'true');
-  });
-  updateBar();
-}
-function selNone() {
-  document.querySelectorAll('.track-row').forEach(r => {
-    r.classList.remove('on'); r.setAttribute('aria-checked', 'false');
-  });
-  updateBar();
-}
-function selUnique() {
-  document.querySelectorAll('.track-row').forEach(r => {
-    const on = !r.classList.contains('dup');
-    r.classList.toggle('on', on);
-    r.setAttribute('aria-checked', on ? 'true' : 'false');
-  });
-  updateBar();
-}
-
-function updateBar() {
-  const n     = document.querySelectorAll('.track-row.on').length;
-  const el    = document.getElementById('sel-count');
-  const prev  = parseInt(el.textContent) || 0;
-
-  el.textContent = n;
-
-  // /animate — pulse the count when it changes
-  if (n !== prev) {
-    el.classList.remove('bump');
-    void el.offsetWidth; // reflow to restart animation
-    el.classList.add('bump');
-    setTimeout(() => el.classList.remove('bump'), 200);
-  }
-
-  n > 0
-    ? document.getElementById('bottom-bar').classList.add('up')
-    : hideBotBar();
-}
-
-function hideBotBar() { document.getElementById('bottom-bar').classList.remove('up'); }
-
-// ─── API  (/normalize — single fetchWebApi, dead spotifyFetch removed) ────────
-async function fetchWebApi(endpoint, method, body) {
-  const url = endpoint.startsWith('http')
-    ? endpoint
-    : `https://api.spotify.com/${endpoint}`;
-
-  const res = await fetch(url, {
-    method,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type':  'application/json'
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
-
-  if (res.status === 401) { logout(); throw new Error('Session expired — please reconnect.'); }
-  if (res.status === 403) {
-    const body = await res.json().catch(()=>({}));
-    const msg  = body?.error?.message || 'Forbidden';
-    // Scope mismatch: force a fresh login so the user re-authorises with correct permissions
-    if (msg.toLowerCase().includes('scope') || msg.toLowerCase().includes('permission')) {
-      ['sp_tok','sp_exp','sp_ref','sp_scope_ver'].forEach(k => localStorage.removeItem(k));
-      throw new Error('Permission error — your session needs a refresh. Logging you out so you can reconnect with the right permissions.');
+      updateBar();
     }
-    throw new Error(`Forbidden: ${msg}`);
-  }
-  if (res.status === 429) {
-    const wait = parseInt(res.headers.get('Retry-After') || '2') * 1000;
-    await new Promise(r => setTimeout(r, wait));
-    return fetchWebApi(endpoint, method, body);
-  }
-  if (!res.ok) {
-    const e = await res.json().catch(()=>({}));
-    throw new Error(e.error?.message || `HTTP ${res.status}`);
-  }
-  if (res.status === 204) return {};
-  return res.json();
-}
 
-// ─── Playlist Creation ────────────────────────────────────────────
-// Pure async function — mirrors Spotify tutorial pattern exactly
-async function createPlaylist(tracksUri, name, description) {
-  // Use /v1/me/playlists — the /v1/users/{id}/playlists endpoint can 403
-  // with "You cannot create a playlist for another user" if the user_id doesn't
-  // exactly match the authenticated user's canonical ID
-  const playlist = await fetchWebApi('v1/me/playlists', 'POST', {
-    name,
-    description,
-    public: false
-  });
-
-  // Add in batches of 100; first chunk uses query-param style (tutorial),
-  // subsequent chunks use body (avoids URL length limits)
-  for (let i = 0; i < tracksUri.length; i += 100) {
-    const chunk = tracksUri.slice(i, i + 100);
-    if (i === 0) {
-      await fetchWebApi(
-        `v1/playlists/${playlist.id}/tracks?uris=${encodeURIComponent(chunk.join(','))}`,
-        'POST'
-      );
-    } else {
-      await fetchWebApi(`v1/playlists/${playlist.id}/tracks`, 'POST', { uris: chunk });
+    function toggleRow(row) {
+      const on = row.classList.toggle('on');
+      const idx = parseInt(row.dataset.idx);
+      if (allTracks[idx]) allTracks[idx].selected = on;
+      row.setAttribute('aria-checked', on ? 'true' : 'false');
+      updateBar();
     }
-  }
 
-  return playlist;
-}
+    // ─── Selection ─────────────────────────────────────────────────────
+    function selAll() {
+      document.querySelectorAll('.track-row').forEach(r => {
+        r.classList.add('on'); r.setAttribute('aria-checked', 'true');
+      });
+      updateBar();
+    }
+    function selNone() {
+      document.querySelectorAll('.track-row').forEach(r => {
+        r.classList.remove('on'); r.setAttribute('aria-checked', 'false');
+      });
+      updateBar();
+    }
+    function selUnique() {
+      document.querySelectorAll('.track-row').forEach(r => {
+        const on = !r.classList.contains('dup');
+        r.classList.toggle('on', on);
+        r.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+      updateBar();
+    }
 
-// Open the naming modal — pre-fills with a date-based suggestion
-function openNamingModal() {
-  if (!currentUser) { showToast('Not logged in.', 'err'); return; }
-  const rows = document.querySelectorAll('.track-row.on');
-  if (!rows.length) { showToast('Select at least one song first.', 'err'); return; }
+    function updateBar() {
+      const n = document.querySelectorAll('.track-row.on').length;
+      const el = document.getElementById('sel-count');
+      const prev = parseInt(el.textContent) || 0;
 
-  const suggested = `✨ ${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR}`;
-  const input = document.getElementById('pname');
-  input.value = suggested;
+      el.textContent = n;
 
-  document.getElementById('naming-sub').textContent =
-    `${rows.length} song${rows.length !== 1 ? 's' : ''} selected — give this playlist a name.`;
+      // /animate — pulse the count when it changes
+      if (n !== prev) {
+        el.classList.remove('bump');
+        void el.offsetWidth; // reflow to restart animation
+        el.classList.add('bump');
+        setTimeout(() => el.classList.remove('bump'), 200);
+      }
 
-  document.getElementById('naming-modal').classList.add('show');
-  // Focus the input after the modal animates in
-  setTimeout(() => { input.focus(); input.select(); }, 120);
-}
+      n > 0
+        ? document.getElementById('bottom-bar').classList.add('up')
+        : hideBotBar();
+    }
 
-function closeNamingModal() {
-  document.getElementById('naming-modal').classList.remove('show');
-}
+    function hideBotBar() { document.getElementById('bottom-bar').classList.remove('up'); }
 
-// Called when user confirms the name and hits Save
-async function confirmSave() {
-  const name = document.getElementById('pname').value.trim()
-    || `${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR}`;
+    // ─── API  (/normalize — single fetchWebApi, dead spotifyFetch removed) ────────
+    async function fetchWebApi(endpoint, method, body, _isRetry = false) {
+      const url = endpoint.startsWith('http')
+        ? endpoint
+        : `https://api.spotify.com/${endpoint}`;
 
-  const confirmBtn = document.getElementById('btn-confirm-save');
-  const spinner    = confirmBtn.querySelector('.confirm-spinner');
-  confirmBtn.disabled = true;
-  spinner.style.display = 'inline-block';
+      const res = await fetch(url, {
+        method,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: body ? JSON.stringify(body) : undefined
+      });
 
-  const rows = document.querySelectorAll('.track-row.on');
+      if (res.status === 401) {
+        if (!_isRetry) {
+          // Token expired — attempt a silent refresh then retry once
+          try {
+            await refreshToken();
+            return fetchWebApi(endpoint, method, body, true);
+          } catch (refreshErr) {
+            // Refresh failed — session is truly dead, log out
+            logout();
+            throw new Error('Session expired — please reconnect.');
+          }
+        }
+        // Second 401 after refresh → give up
+        logout();
+        throw new Error('Session expired — please reconnect.');
+      }
+      if (res.status === 403) {
+        const errBody = await res.json().catch(() => ({}));
+        const msg = errBody?.error?.message || 'Forbidden';
+        // Scope mismatch: force a fresh login so the user re-authorises with correct permissions
+        if (msg.toLowerCase().includes('scope') || msg.toLowerCase().includes('permission')) {
+          ['sp_tok', 'sp_exp', 'sp_ref', 'sp_scope_ver'].forEach(k => localStorage.removeItem(k));
+          throw new Error('Permission error — your session needs a refresh. Logging you out so you can reconnect with the right permissions.');
+        }
+        throw new Error(`Forbidden: ${msg}`);
+      }
+      if (res.status === 429) {
+        const wait = parseInt(res.headers.get('Retry-After') || '2') * 1000;
+        await new Promise(r => setTimeout(r, wait));
+        return fetchWebApi(endpoint, method, body, _isRetry);
+      }
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        throw new Error(e.error?.message || `HTTP ${res.status}`);
+      }
+      if (res.status === 204) return {};
+      return res.json();
+    }
 
-  try {
-    const tracksUri = [];
-    rows.forEach(row => {
-      const item = allTracks[parseInt(row.dataset.idx)];
-      if (item?.track?.uri) tracksUri.push(item.track.uri);
-    });
+    // ─── Playlist Creation ────────────────────────────────────────────
+    // Pure async function — mirrors Spotify tutorial pattern exactly
+    async function createPlaylist(tracksUri, name, description) {
+      // Use /v1/me/playlists — the /v1/users/{id}/playlists endpoint can 403
+      // with "You cannot create a playlist for another user" if the user_id doesn't
+      // exactly match the authenticated user's canonical ID
+      const playlist = await fetchWebApi('v1/me/playlists', 'POST', {
+        name,
+        description,
+        public: false
+      });
 
-    const description = `🎵 ${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR} — saved with Our Playlist`;
-    if (tracksUri.length > 100) showToast(`Uploading ${tracksUri.length} tracks in batches…`);
+      // Add in batches of 100; first chunk uses query-param style (tutorial),
+      // subsequent chunks use body (avoids URL length limits)
+      for (let i = 0; i < tracksUri.length; i += 100) {
+        const chunk = tracksUri.slice(i, i + 100);
+        if (i === 0) {
+          await fetchWebApi(
+            `v1/playlists/${playlist.id}/tracks?uris=${encodeURIComponent(chunk.join(','))}`,
+            'POST'
+          );
+        } else {
+          await fetchWebApi(`v1/playlists/${playlist.id}/tracks`, 'POST', { uris: chunk });
+        }
+      }
 
-    const playlist = await createPlaylist(tracksUri, name, description);
+      return playlist;
+    }
 
-    // Close naming modal, open success modal
-    closeNamingModal();
-    document.getElementById('modal-msg').textContent =
-      `"${name}" with ${tracksUri.length} track${tracksUri.length !== 1 ? 's' : ''} is now in ${currentUser.display_name || 'your'}'s Spotify.`;
-    document.getElementById('modal-link').href = playlist.external_urls?.spotify || '#';
-    document.getElementById('modal').classList.add('show');
+    // ─── Generate Playlist Cover Grid ────────────────────────────────────
+    function generatePlaylistCover() {
+      const modalCover = document.getElementById('modal-cover');
+      const selected = allTracks.filter(t => t.selected);
 
-  } catch (e) {
-    closeNamingModal();
-    showToast(`Failed: ${e.message}`, 'err');
-  } finally {
-    confirmBtn.disabled = false;
-    spinner.style.display = 'none';
-  }
-}
+      if (selected.length === 0) {
+        // Fallback: show placeholder
+        modalCover.className = 'modal-icon placeholder';
+        modalCover.innerHTML = '🎵';
+        return;
+      }
 
-// Keep for compatibility — not wired to the button anymore but safe to leave
-async function handleCreatePlaylist() { openNamingModal(); }
+      // Shuffle & pick up to 4 random tracks
+      const shuffled = [...selected].sort(() => Math.random() - 0.5);
+      const picked = shuffled.slice(0, 4);
 
-function closeModal() { document.getElementById('modal').classList.remove('show'); }
+      // Build exactly 2x2 grid (4 cells)
+      modalCover.className = 'modal-icon';
+      modalCover.innerHTML = '';
 
-// ─── Utils ────
-function esc(s) {
-  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+      // Add images first
+      picked.forEach(track => {
+        if (track.image) {
+          const img = document.createElement('img');
+          img.src = track.image;
+          img.alt = `${track.track.name} album art`;
+          img.onerror = () => {
+            img.style.background = 'var(--card-hov)';
+          };
+          modalCover.appendChild(img);
+        }
+      });
 
-function resetTrackArea(title, msg, icon = '🎵') {
-  document.getElementById('warn-box').classList.remove('show');
-  document.getElementById('tracks-wrap').innerHTML =
-    `<div class="state-box">
+      // Fill remaining cells with placeholder divs up to 4
+      while (modalCover.children.length < 4) {
+        const div = document.createElement('div');
+        div.style.background = 'var(--card-hov)';
+        div.style.borderRadius = '3px';
+        modalCover.appendChild(div);
+      }
+
+      // If somehow no images at all, show fallback
+      if (picked.length === 0) {
+        modalCover.className = 'modal-icon placeholder';
+        modalCover.innerHTML = '🎵';
+      }
+    }
+
+    // Open the naming modal — pre-fills with a date-based suggestion
+    function openNamingModal() {
+      if (!currentUser) { showToast('Not logged in.', 'err'); return; }
+      const rows = document.querySelectorAll('.track-row.on');
+      if (!rows.length) { showToast('Select at least one song first.', 'err'); return; }
+
+      const suggested = `✨ ${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR}`;
+      const input = document.getElementById('pname');
+      input.value = suggested;
+
+      document.getElementById('naming-sub').textContent =
+        `${rows.length} song${rows.length !== 1 ? 's' : ''} selected — give this playlist a name.`;
+
+      // Generate playlist cover from selected track thumbnails
+      generatePlaylistCover();
+
+      document.getElementById('naming-modal').classList.add('show');
+      // Focus the input after the modal animates in
+      setTimeout(() => { input.focus(); input.select(); }, 120);
+    }
+
+    function closeNamingModal() {
+      document.getElementById('naming-modal').classList.remove('show');
+    }
+
+    // Called when user confirms the name and hits Save
+    async function confirmSave() {
+      const name = document.getElementById('pname').value.trim()
+        || `${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR}`;
+
+      const confirmBtn = document.getElementById('btn-confirm-save');
+      const spinner = confirmBtn.querySelector('.confirm-spinner');
+      confirmBtn.disabled = true;
+      spinner.style.display = 'inline-block';
+
+      const rows = document.querySelectorAll('.track-row.on');
+
+      try {
+        const tracksUri = [];
+        rows.forEach(row => {
+          const item = allTracks[parseInt(row.dataset.idx)];
+          if (item?.track?.uri) tracksUri.push(item.track.uri);
+        });
+
+        const description = `🎵 ${MONTHS[activeMonth]} ${activeDay}, ${CUR_YEAR} — saved with Our Playlist`;
+        if (tracksUri.length > 100) showToast(`Uploading ${tracksUri.length} tracks in batches…`);
+
+        const playlist = await createPlaylist(tracksUri, name, description);
+
+        // Close naming modal, open success modal
+        closeNamingModal();
+        document.getElementById('modal-msg').textContent =
+          `"${name}" with ${tracksUri.length} track${tracksUri.length !== 1 ? 's' : ''} is now in ${currentUser.display_name || 'your'}'s Spotify.`;
+        document.getElementById('modal-link').href = playlist.external_urls?.spotify || '#';
+        document.getElementById('modal').classList.add('show');
+
+      } catch (e) {
+        closeNamingModal();
+        showToast(`Failed: ${e.message}`, 'err');
+      } finally {
+        confirmBtn.disabled = false;
+        spinner.style.display = 'none';
+      }
+    }
+
+    // Keep for compatibility — not wired to the button anymore but safe to leave
+    async function handleCreatePlaylist() { openNamingModal(); }
+
+    function closeModal() { document.getElementById('modal').classList.remove('show'); }
+
+    // ─── Utils ────
+    function esc(s) {
+      return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function resetTrackArea(title, msg, icon = '🎵') {
+      document.getElementById('warn-box').classList.remove('show');
+      document.getElementById('tracks-wrap').innerHTML =
+        `<div class="state-box">
        <span class="ico" aria-hidden="true">${icon}</span>
        <h3>${esc(title)}</h3>
        <p>${esc(msg)}</p>
      </div>`;
-}
+    }
 
-function showToast(msg, type = '') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className   = 'toast' + (type ? ' ' + type : '') + ' show';
-  setTimeout(() => el.classList.remove('show'), 3400);
-}
-</script>
+    function showToast(msg, type = '') {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = 'toast' + (type ? ' ' + type : '') + ' show';
+      setTimeout(() => el.classList.remove('show'), 3400);
+    }
+  </script>
 </body>
+
 </html>
