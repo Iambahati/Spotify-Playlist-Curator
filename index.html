@@ -1447,14 +1447,20 @@
   <!-- Success modal -->
   <div class="overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
-      <div class="modal-icon" aria-hidden="true">🎉</div>
+      <div class="modal-icon" id="success-cover" aria-hidden="true"></div>
       <h2 id="modal-title">Playlist Saved!</h2>
       <p id="modal-msg">Your playlist has been added to Spotify.</p>
-      <div class="modal-btns">
-        <a class="btn-primary" id="modal-link" href="#" target="_blank" rel="noopener">
-          Open in Spotify
-        </a>
-        <button class="btn-ghost" onclick="closeModal()">Done</button>
+      <div class="modal-btns" style="flex-direction: column; align-items: center; gap: 14px;">
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a class="btn-primary" id="modal-link" href="#" target="_blank" rel="noopener">
+            Open in Spotify
+          </a>
+          <a class="btn-primary" id="whatsapp-link" href="#" target="_blank" rel="noopener"
+            style="background: #25D366; color: #fff;">
+            Share to WhatsApp
+          </a>
+        </div>
+        <button class="btn-ghost" onclick="closeModal()">Close</button>
       </div>
     </div>
   </div>
@@ -2185,7 +2191,7 @@
 
       for (let i = 0; i < tracksUri.length; i += 100) {
         const chunk = tracksUri.slice(i, i + 100);
-        await fetchWebApi(`v1/playlists/${playlist.id}/tracks`, 'POST', { uris: chunk });
+        await fetchWebApi(`v1/playlists/${playlist.id}/items`, 'POST', { uris: chunk });
       }
 
       return playlist;
@@ -2250,7 +2256,7 @@
       input.value = suggested;
 
       document.getElementById('naming-sub').textContent =
-        `${rows.length} song${rows.length !== 1 ? 's' : ''} selected - give this playlist a name.`;
+        `${rows.length} song${rows.length !== 1 ? 's' : ''} selected — give this playlist a name.`;
 
       // Generate playlist cover from selected track thumbnails
       generatePlaylistCover();
@@ -2292,8 +2298,28 @@
         closeNamingModal();
         document.getElementById('modal-msg').textContent =
           `"${name}" with ${tracksUri.length} track${tracksUri.length !== 1 ? 's' : ''} is now in ${currentUser.display_name || 'your'}'s Spotify.`;
-        document.getElementById('modal-link').href = playlist.external_urls?.spotify || '#';
+
+        const playlistUrl = playlist.external_urls?.spotify || '#';
+        document.getElementById('modal-link').href = playlistUrl;
+
+        const waText = encodeURIComponent(`Check out my new Spotify playlist: ${name} ${playlistUrl !== '#' ? playlistUrl : ''}`);
+        document.getElementById('whatsapp-link').href = `https://wa.me/254796927065?text=${waText}`;
+
+        const sCover = document.getElementById('success-cover');
+        const mCover = document.getElementById('modal-cover');
+        sCover.innerHTML = mCover.innerHTML;
+        sCover.className = mCover.className;
+
         document.getElementById('modal').classList.add('show');
+
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 150,
+            spread: 120,
+            origin: { y: 0.6 },
+            colors: ['#1DB954', '#ffffff', '#1ed760'] // Spotify theme
+          });
+        }
 
       } catch (e) {
         closeNamingModal();
@@ -2331,6 +2357,7 @@
       setTimeout(() => el.classList.remove('show'), 3400);
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
 
 </html>
