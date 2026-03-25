@@ -1608,7 +1608,7 @@
       return (t && Date.now() < e - 60000) ? t : null;
     }
 
-    // ─── Token Refresh ─────────────────────────────────────────────────
+    // ─── Token Refresh ────────
     let _refreshing = null; // deduplicate concurrent refresh calls
     async function refreshToken() {
       if (_refreshing) return _refreshing;
@@ -1637,11 +1637,11 @@
     }
 
     function logout() {
-      // ── Clear auth storage ──────────────────────────────────────────
+      // ── Clear auth storage ─────────
       ['sp_tok', 'sp_exp', 'sp_ref', 'sp_scope_ver', 'pkce_v', 'oauth_s']
         .forEach(k => localStorage.removeItem(k));
 
-      // ── Reset all JS state ──────────────────────────────────────────
+      // ── Reset all JS state ─────────
       accessToken = null;
       currentUser = null;
       allTracks = [];
@@ -1649,7 +1649,7 @@
       activeDay = null;
       hintDismissed = false;
 
-      // ── Reset DOM ───────────────────────────────────────────────────
+      // ── Reset DOM ──────────
       // User chip
       const av = document.getElementById('av');
       av.innerHTML = '?';
@@ -1691,12 +1691,12 @@
       document.getElementById('modal').classList.remove('show');
       document.getElementById('naming-modal').classList.remove('show');
 
-      // ── Swap screens ────────────────────────────────────────────────
+      // ── Swap screens ───────
       document.getElementById('app').style.display = 'none';
       document.getElementById('auth-screen').style.display = 'flex';
     }
 
-    // ─── Boot App ─────────────────────────────────────────────────────
+    // ─── Boot App ────────────
     async function bootApp() {
       document.getElementById('auth-screen').style.display = 'none';
       document.getElementById('app').style.display = 'block';
@@ -1718,7 +1718,7 @@
       } catch (e) { console.error('loadUser', e); }
     }
 
-    // ─── Month Picker ─────────────────────────────────────────────────
+    // ─── Month Picker ────────
     function renderMonthView() {
       activeMonth = null;
       activeDay = null;
@@ -1762,7 +1762,7 @@
       hideBotBar();
     }
 
-    // ─── Day Picker ───────────────────────────────────────────────────
+    // ─── Day Picker ──────────
     function renderDayView(month) {
       activeMonth = month;
       activeDay = null;
@@ -1861,7 +1861,7 @@
       hint.style.display = 'flex';
     }
 
-    // ─── Picker collapse / expand ─────────────────────────────────────
+    // ─── Picker collapse / expand ────
     function collapsePicker(dateLabel) {
       const shell = document.getElementById('picker-shell');
       const toggle = document.getElementById('picker-toggle');
@@ -1904,7 +1904,7 @@
       }
     }
 
-    // ─── Day Selected ─────────────────────────────────────────────────
+    // ─── Day Selected ────────
     function selectDay(day, cell) {
       document.querySelectorAll('.day-cell.selected').forEach(c => c.classList.remove('selected'));
       cell.classList.add('selected');
@@ -1926,7 +1926,7 @@
       loadDay(dateStr);
     }
 
-    // ─── Fetch History ─────────────────────────────────────────────────
+    // ─── Fetch History ────────
     async function loadDay(dateStr) {
       const wrap = document.getElementById('tracks-wrap');
       const warn = document.getElementById('warn-box');
@@ -2001,7 +2001,7 @@
       }
     }
 
-    // ─── Render Tracks ─────────────────────────────────────────────────
+    // ─── Render Tracks ────────
     function renderTracks() {
       const wrap = document.getElementById('tracks-wrap');
       const unique = new Set(allTracks.map(t => t.track.id)).size;
@@ -2076,7 +2076,7 @@
       updateBar();
     }
 
-    // ─── Selection ─────────────────────────────────────────────────────
+    // ─── Selection ────────────
     function selAll() {
       document.querySelectorAll('.track-row').forEach(r => {
         r.classList.add('on'); r.setAttribute('aria-checked', 'true');
@@ -2174,36 +2174,24 @@
       return res.json();
     }
 
-    // ─── Playlist Creation ────────────────────────────────────────────
+    // ─── Playlist Creation ───
     // Pure async function — mirrors Spotify tutorial pattern exactly
     async function createPlaylist(tracksUri, name, description) {
-      // Use /v1/me/playlists — the /v1/users/{id}/playlists endpoint can 403
-      // with "You cannot create a playlist for another user" if the user_id doesn't
-      // exactly match the authenticated user's canonical ID
       const playlist = await fetchWebApi('v1/me/playlists', 'POST', {
         name,
         description,
         public: false
       });
 
-      // Add in batches of 100; first chunk uses query-param style (tutorial),
-      // subsequent chunks use body (avoids URL length limits)
       for (let i = 0; i < tracksUri.length; i += 100) {
         const chunk = tracksUri.slice(i, i + 100);
-        if (i === 0) {
-          await fetchWebApi(
-            `v1/playlists/${playlist.id}/tracks?uris=${encodeURIComponent(chunk.join(','))}`,
-            'POST'
-          );
-        } else {
-          await fetchWebApi(`v1/playlists/${playlist.id}/tracks`, 'POST', { uris: chunk });
-        }
+        await fetchWebApi(`v1/playlists/${playlist.id}/tracks`, 'POST', { uris: chunk });
       }
 
       return playlist;
     }
 
-    // ─── Generate Playlist Cover Grid ────────────────────────────────────
+    // ─── Generate Playlist Cover Grid ───
     function generatePlaylistCover() {
       const modalCover = document.getElementById('modal-cover');
       const selected = allTracks.filter(t => t.selected);
